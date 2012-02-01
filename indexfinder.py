@@ -196,9 +196,7 @@ class ParlisIndexFinder(object):
 		
 		Built-in python function.
 		"""
-		print "IndexFinder for year %i" % self.year
-		print "File for output: %s" % self.outputFile
-		print "Delay between searching: %i seconds" % self.searchDelay
+		return "%s for year %i" % (self.__class__.__name__, self.year)
 #end class ParlisIndexFinder
 
 if __name__ == '__main__':
