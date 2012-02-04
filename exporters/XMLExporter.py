@@ -15,8 +15,6 @@ class XMLExporter(Exporter):
         
         for proposition in propositions:
             if proposition is not None:
-                assert isinstance(proposition, Proposition)
-                
                 xmlDocument.documentElement.appendChild(self._createDOMEntryFromProposition(xmlDocument, proposition))
         
         fileWriter = open(self.xmlfile, 'w')    
@@ -32,7 +30,6 @@ class XMLExporter(Exporter):
             
             return element
         
-        assert isinstance(proposition, Proposition)
         propositionElement = document.createElement("Proposition")
         
         propositionElement.appendChild(createDOMElement(propositionElement, "link", proposition.link))

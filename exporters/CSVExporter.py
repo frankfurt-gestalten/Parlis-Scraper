@@ -24,7 +24,6 @@ class CSVExporter(Exporter):
         i = 1
         for singleProposition in propositions:
             if(singleProposition is not None and i <= 500):
-                assert isinstance(singleProposition, Proposition)
                 csvWriter.writerow(self._createSequenceFromProposition(singleProposition))
                 i +=1
 
