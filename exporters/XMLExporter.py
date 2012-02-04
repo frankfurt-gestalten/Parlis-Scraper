@@ -1,3 +1,5 @@
+import xml.dom
+
 from exporters import Exporter
 
 class XMLExporter(Exporter):

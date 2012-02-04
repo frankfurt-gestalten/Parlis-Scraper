@@ -3,9 +3,6 @@ This module contains various classes to export the retrieved data.
 
 @author: Niko Wenselowski
 '''
-from csv import writer
-import xml.dom
-from scraper import Proposition
 
 class Exporter(object):
     '''

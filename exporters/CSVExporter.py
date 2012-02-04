@@ -1,3 +1,5 @@
+from csv import writer
+
 from exporters import Exporter
 
 class CSVExporter(Exporter):
