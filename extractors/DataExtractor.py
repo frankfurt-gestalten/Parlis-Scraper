@@ -180,7 +180,7 @@ class DataExtractor(object):
             cleanPartei = self._cleanHTML(matchPartei.group(1))
             
             #RE compilen für bessere performance. Case-insensitive matching
-            reObj = re.compile("(FREIE WÄHLER|[\wÜÖÄ]+)\s+", flags=re.I | re.L)
+            reObj = re.compile("(FREIE WÄHLER|LINKE\.|[\wÜÖÄ]+)\s+", flags=re.I | re.L)
             
             parties = []
             
