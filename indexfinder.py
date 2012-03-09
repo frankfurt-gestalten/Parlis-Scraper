@@ -8,7 +8,6 @@ It will create a file called 'YYYY-IDlist.txt' where YYYY is the year.
 import urllib2
 import re
 import time
-import csv
 
 #HTML Parser
 from BeautifulSoup import BeautifulSoup
