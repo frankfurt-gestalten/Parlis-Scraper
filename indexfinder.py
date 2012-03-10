@@ -12,13 +12,13 @@ import time
 #HTML Parser
 from BeautifulSoup import BeautifulSoup
 
+
 class ParlisIndexFinder(object):
 	"""
 	This class can be used to retrieve a list of IDs that can be used for scraping.
-	
 	It will create a file called 'YYYY-IDlist.txt' where YYYY is the year.
 	"""
-	def __init__(self, year, outputFile = None):
+	def __init__(self, year, outputFile=None):
 		"""
 		Constructor
 
@@ -38,11 +38,10 @@ class ParlisIndexFinder(object):
 		self.year = year
 		self.outputFile = outputFile
 		
-		self.retrievedTotalNumberOfDocuments =  False
+		self.retrievedTotalNumberOfDocuments = False
 		
 		#pre compile RegExp for the speed:
 		self.linkPattern = re.compile("OF_(\d{1,4})-(\d{1,2})_(\d{4})", re.I)
-
 
 	def __getLinkList(self):
 		"""
@@ -79,14 +78,13 @@ class ParlisIndexFinder(object):
 		except AttributeError, aerr:
 			print aerr
 			print "Aborting the search for indexes."
-			#This is mostly a failure of getting the total number of items.		
+			#This is mostly a failure of getting the total number of items.
 			self.end = 0
 		except Exception, err:
 			#Problems? Give out some information
 			print err
 			
 		return linkListe
-
 
 	def __graspID(self, listWithLinks):
 		"""
@@ -120,7 +118,6 @@ class ParlisIndexFinder(object):
 
 		return IDlist
 
-
 	def __writeIDListToFile(self, documentID):
 		"""
 		Write the supplied list of IDs into a text file.
@@ -129,8 +126,6 @@ class ParlisIndexFinder(object):
 		@param documentID: a single document ID.
 		@type documentID: list
 		"""
-		#make sure the parameter is not a string!
-		
 		try:
 			filehandle = open(self.outputFile, 'a') #a for append
 			filehandle.write("%s\n" % documentID)
@@ -180,14 +175,13 @@ class ParlisIndexFinder(object):
 					continue
 			
 			#Feedback for the user, so he sees how many entries have been scraped
-			print "Year %i: %s items left to process" % (self.year, (self.end - self.start)) 
+			print "Year %i: %s items left to process" % (self.year, (self.end - self.start))
 			self.start += 20
 			
 			#sleep a little bit. We don't want to crash the server (poor hardware ;))
 			time.sleep(self.searchDelay)
 			
 		print "Finished scraping the indexes."
-		
 		
 	def __repr__(self):
 		"""

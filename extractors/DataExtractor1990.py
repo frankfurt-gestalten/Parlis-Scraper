@@ -7,12 +7,13 @@ import re
 
 from DataExtractor import DataExtractor
 
+
 class DataExtractor1990(DataExtractor):
     '''
     classdocs
     '''
     def _getSubjectNoooooow(self, matchBetreff):
-        bet  = self._quoteChange(matchBetreff.group(0))
+        bet = self._quoteChange(matchBetreff.group(0))
         bet2 = re.sub("Betreff: </p>", "", bet)
         returnSubject = re.sub("Begr\xc3\xbcndung:", "", bet2)
         

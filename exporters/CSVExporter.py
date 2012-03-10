@@ -2,11 +2,11 @@ from csv import writer
 
 from exporters import Exporter
 
+
 class CSVExporter(Exporter):
     '''
-    A class to export the propositions into a .csv-file. 
+    A class to export the propositions into a .csv-file.
     '''
-    
     def __init__(self, filename):
         self.outputFile = filename
         
@@ -15,17 +15,19 @@ class CSVExporter(Exporter):
         This will append the proposition to the export file.
         """
         csvWriter = writer(
-                           open(self.outputFile, 'ab'), 
-                           delimiter=';', 
+                           open(self.outputFile, 'ab'),
+                           delimiter=';',
                            quotechar='"'
                            )
-        header = ["update","link","date","partei","nummer","title","begruendung","betreff","ergebnisse", 'ob_nummer']
+        header = ["update", "link", "date", "partei", "nummer", "title",
+                  "begruendung", "betreff", "ergebnisse", 'ob_nummer']
         csvWriter.writerow(header)
         i = 1
         for singleProposition in propositions:
             if(singleProposition is not None and i <= 500):
-                csvWriter.writerow(self._createSequenceFromProposition(singleProposition))
-                i +=1
+                proposition = self._createSequenceFromProposition(singleProposition)
+                csvWriter.writerow(proposition)
+                i += 1
 
     def _createSequenceFromProposition(self, proposition):
         return [

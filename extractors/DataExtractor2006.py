@@ -25,7 +25,7 @@ class DataExtractor2006(DataExtractor):
         return "class(\W)MsoNormal?"
     
     def _getSubjectNoooooow(self, matchBetreff):
-        bet  = self._quoteChange(matchBetreff.group(0))
+        bet = self._quoteChange(matchBetreff.group(0))
         bet2 = re.sub("Betreff: </p>", "", bet)
         returnSubject = re.sub("Begr\xc3\xbcndung:", "", bet2)
         

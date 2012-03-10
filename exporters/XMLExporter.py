@@ -2,22 +2,27 @@ import xml.dom
 
 from exporters import Exporter
 
+
 class XMLExporter(Exporter):
     """
-    This class creates XML 
+    This class creates XML
     """
     def __init__(self, filename):
         self.xmlfile = filename
-        
-    def createExport(self, propositions):                
+    
+    def createExport(self, propositions):
         implement = xml.dom.getDOMImplementation()
-        xmlDocument = implement.createDocument(None, "PARLIS_propositions", None)
+        xmlDocument = implement.createDocument(None,
+                                               "PARLIS_propositions",
+                                               None)
         
         for proposition in propositions:
             if proposition is not None:
-                xmlDocument.documentElement.appendChild(self._createDOMEntryFromProposition(xmlDocument, proposition))
+                dom_entry = self._createDOMEntryFromProposition(xmlDocument,
+                                                                proposition)
+                xmlDocument.documentElement.appendChild(dom_entry)
         
-        fileWriter = open(self.xmlfile, 'w')    
+        fileWriter = open(self.xmlfile, 'w')
         xmlDocument.writexml(fileWriter, '\n', ' ')
         fileWriter.close()
     
@@ -32,14 +37,34 @@ class XMLExporter(Exporter):
         
         propositionElement = document.createElement("Proposition")
         
-        propositionElement.appendChild(createDOMElement(propositionElement, "link", proposition.link))
-        propositionElement.appendChild(createDOMElement(propositionElement, "update_date", proposition.updateDate))
-        propositionElement.appendChild(createDOMElement(propositionElement, "date", proposition.date))
-        propositionElement.appendChild(createDOMElement(propositionElement, "party", proposition.party))
-        propositionElement.appendChild(createDOMElement(propositionElement, "proposition_number", proposition.proposition_nbr))
-        propositionElement.appendChild(createDOMElement(propositionElement, "ob_number", proposition.obnumber))
-        propositionElement.appendChild(createDOMElement(propositionElement, "title", proposition.title))
-        propositionElement.appendChild(createDOMElement(propositionElement, "statement", proposition.statement))
-        propositionElement.appendChild(createDOMElement(propositionElement, "subject", proposition.subject))
-        propositionElement.appendChild(createDOMElement(propositionElement, "result", proposition.result))
+        propositionElement.appendChild(createDOMElement(propositionElement,
+                                                        "link",
+                                                        proposition.link))
+        propositionElement.appendChild(createDOMElement(propositionElement,
+                                                        "update_date",
+                                                        proposition.updateDate))
+        propositionElement.appendChild(createDOMElement(propositionElement,
+                                                        "date",
+                                                        proposition.date))
+        propositionElement.appendChild(createDOMElement(propositionElement,
+                                                        "party",
+                                                        proposition.party))
+        propositionElement.appendChild(createDOMElement(propositionElement,
+                                                        "proposition_number",
+                                                        proposition.proposition_nbr))
+        propositionElement.appendChild(createDOMElement(propositionElement,
+                                                        "ob_number",
+                                                        proposition.obnumber))
+        propositionElement.appendChild(createDOMElement(propositionElement,
+                                                        "title",
+                                                        proposition.title))
+        propositionElement.appendChild(createDOMElement(propositionElement,
+                                                        "statement",
+                                                        proposition.statement))
+        propositionElement.appendChild(createDOMElement(propositionElement,
+                                                        "subject",
+                                                        proposition.subject))
+        propositionElement.appendChild(createDOMElement(propositionElement,
+                                                        "result",
+                                                        proposition.result))
         return propositionElement

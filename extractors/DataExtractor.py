@@ -7,11 +7,11 @@ Created on 09.10.2011
 import re
 from datetime import date
 
+
 class DataExtractor(object):
     """
-    This class is used to get data from the content of a proposition page in PARLIS.
-    """ 
-    
+    This class is used to get data from a proposition page in PARLIS.
+    """
     def __init__(self, link, pageContent):
         self._link = link
         self._pageContent = pageContent
@@ -24,7 +24,6 @@ class DataExtractor(object):
         self._statement = None
         self._subject = None
         self._result = None
-    
     
     def _getSourceCode(self):
         return str(self._pageContent)
@@ -65,7 +64,7 @@ class DataExtractor(object):
         removeLeer = "&nbsp;"
         removeBeg = "Begr\xc3\xbcndung:</p>"
         removeStyle = " style.*?>"
-        removeA = "<a name.*?>" #anchors inside the page
+        removeA = "<a name.*?>"  # anchors inside the page
         removeTable = "tableTable\""
         removeP = "<p class=MsoNormal>&nbsp;.*?</p>"
         removeMSO = 'class="MsoNormal"'
@@ -94,20 +93,18 @@ class DataExtractor(object):
         
         return cleanPackage
      
-    
     def _getTitleMatch(self, matchTitle):
         return re.sub("\.", "\"", matchTitle.group(1))
     
-    
     def _extractTitle(self):
-        return self._getTitleMatch(re.search("var titel = '(.*)';", self._getSourceCode()))
+        return self._getTitleMatch(re.search("var titel = '(.*)';",
+                                   self._getSourceCode()))
     
     def getTitle(self):
         if(not self._title):
             self._title = self._extractTitle()
             
         return self._title
-    
     
     def _getSubjectPattern(self):
         return "Betreff:(.*)Antragsteller:"
@@ -116,7 +113,9 @@ class DataExtractor(object):
         bet = re.sub("Betreff: </p>", "", matchBetreff.group(0))
         returnSubject = re.sub("Begr\xc3\xbcndung:", "", bet)
         returnSubject = self._cleanHTML(returnSubject)
-        returnSubject = re.sub("<p class=MsoNormal>&nbsp;.*?</p>", "", returnSubject)
+        returnSubject = re.sub("<p class=MsoNormal>&nbsp;.*?</p>",
+                               "",
+                               returnSubject)
         
         return returnSubject
     
@@ -124,8 +123,10 @@ class DataExtractor(object):
         return self._cleanHTML(matchAntragssteller.group(0))
     
     def _extractSubject(self):
-        matchBetreff = re.search("Betreff:(.*)Begr\xc3\xbcndung:", self._getSourceCode())
-        matchAntragssteller = re.search(self._getSubjectPattern(), self._getSourceCode())
+        matchBetreff = re.search("Betreff:(.*)Begr\xc3\xbcndung:",
+                                 self._getSourceCode())
+        matchAntragssteller = re.search(self._getSubjectPattern(),
+                                        self._getSourceCode())
         
         if not (matchBetreff is None):
             returnSubject = self._getSubjectNoooooow(matchBetreff)
@@ -158,13 +159,11 @@ class DataExtractor(object):
             print "Could not get update date, assigning None."
             return None
         
-    
     def getUpdateDate(self):
         if(not self._updateDate):
             self._updateDate = self._extractUpdateDate()
         
         return self._updateDate
-    
     
     def _getPartyPattern(self):
         return "Antragsteller:(.*)Vertraulichkeit:"
@@ -223,13 +222,11 @@ class DataExtractor(object):
         
         return self._statement
     
-    
     def __extractTableInformation(self, table):
         tableInformation = re.sub("\[", "", table)
         tableInformation = re.sub("\]", "", tableInformation)
         
         return tableInformation
-    
     
     def _extractResult(self):
         table = self._pageContent.findAll('table')

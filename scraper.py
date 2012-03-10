@@ -12,22 +12,19 @@ import urllib2
 import traceback
 
 from proposition import Proposition
-from extractors import DataExtractor, DataExtractor1990, DataExtractor2003, DataExtractor2006
+from extractors import DataExtractor, DataExtractor1990, DataExtractor2003, \
+                       DataExtractor2006
 
 
 class ParlisScraper(object):
     """
     This class scrapes the files from the webserver.
-    
     The information scraped is saved into a textfile.
     """
-    
-    def __init__(self, year, inputFile = None, outputFile = None):
+    def __init__(self, year, inputFile=None, outputFile=None):
         """
-        Initialize an instance.
-        
+        Constructor.
         The year is used to specify the filenames.
-        
         If it is wished the filenames can be overridden.
         
         @param year: The year what shall be parsed
@@ -57,7 +54,8 @@ class ParlisScraper(object):
         
         @param link: URL to the page to retrieve.
         @type link: str
-        @return: A BeautifulSoup-instance for the supplied url. None if no page could be retrieved.
+        @return: A BeautifulSoup-instance for the supplied url.
+                 None if no page could be retrieved.
         @type: BeautifulSoup
         """
         soup = None
@@ -70,22 +68,20 @@ class ParlisScraper(object):
         
         return soup
     
-    
     def _getExtractor(self, link):
         if(self._needs1990sWorkaround()):
-            return DataExtractor1990.DataExtractor1990(link, self._getPage(link))
+            return DataExtractor1990(link, self._getPage(link))
         elif(self._needs2003Workaround()):
-            return DataExtractor2003.DataExtractor2003(link, self._getPage(link))
+            return DataExtractor2003(link, self._getPage(link))
         elif(self._needs2006Workaround()):
-            return DataExtractor2006.DataExtractor2006(link, self._getPage(link))
+            return DataExtractor2006(link, self._getPage(link))
         else:
-            return DataExtractor.DataExtractor(link, self._getPage(link))
-    
+            return DataExtractor(link, self._getPage(link))
     
     def _getPropositionFromExtractor(self, link):
         extractor = self._getExtractor(link)
         
-        assert isinstance(extractor, DataExtractor.DataExtractor)
+        assert isinstance(extractor, DataExtractor)
         
         try:
             proposition = Proposition(
@@ -102,13 +98,13 @@ class ParlisScraper(object):
             proposition.subject = extractor.getSubject()
             proposition.updateDate = extractor.getUpdateDate()
         except Exception, err:
-            print 'Could not extract all the needed data: %s\nExtractor used: %s' % (err, extractor)
+            print ('Could not extract all the needed data: %s\n'
+                   'Extractor used: %s' % (err, extractor))
             traceback.print_exc()
             #Throw this on to the next instance...
-            raise 
+            raise
         
         return proposition
-    
     
     def _quoteChange(self, text):
         """
@@ -132,7 +128,8 @@ class ParlisScraper(object):
         @type content: str
         """
         try:
-            csvWriter = csv.writer(open(self.outputFile, 'ab'), delimiter=',', quotechar='"')
+            csvWriter = csv.writer(open(self.outputFile, 'ab'),
+                                   delimiter=',', quotechar='"')
             csvWriter.writerow(content)
         except IOError, ioerr:
             #Most obvious error will occur when writing the file...
@@ -140,7 +137,6 @@ class ParlisScraper(object):
         except Exception, err:
             #General error handling for everything else
             print err
-    
     
     def __loadIndex(self, inputFile):
         """
@@ -159,25 +155,26 @@ class ParlisScraper(object):
             
             for line in inputFileHandle:
                 #Create url
-                link = "http://stvv.frankfurt.de/PARLISLINK/DDW?W=DOK_NAME='%s'" % (re.sub("\n", "", line), )
+                link = ("http://stvv.frankfurt.de/PARLISLINK/DDW?W=DOK_NAME="
+                        "'%s'" % (re.sub("\n", "", line), ))
                 
                 #Some output for the user
                 print "Nummer %i (%s)" % (len(collectedPropositions) + 1, link)
                 
                 try:
-                    collectedPropositions.append(
-                                                 self._getPropositionFromExtractor(link)
-                                                )
+                    proposition = self._getPropositionFromExtractor(link)
+                    collectedPropositions.append(proposition)
                 except Exception, err:
-                    print 'Failed to get proposition from %s.\n%s' % (link, err)
+                    print 'Failed to get proposition from %s: %s' % (link, err)
                     traceback.print_exc()
                 
                 #Wait a few seconds so the server can handle the load...
                 time.sleep(self.sleepingTimeInSeconds)
         except IOError, ioe:
             print "Error reading from file '%s':\n%s" % (inputFile, ioe)
-            
-	return sorted(collectedPropositions, key=lambda prop: prop.updateDate, reverse=True)
+        
+        return sorted(collectedPropositions, key=lambda prop: prop.updateDate,
+                      reverse=True)
             
     def _needs2006Workaround(self):
         """
@@ -188,7 +185,6 @@ class ParlisScraper(object):
         """
         return (self.year == 2006)
     
-    
     def _needs1990sWorkaround(self):
         """
         Checks if the instances needs to make use of some workarounds for 1990s.
@@ -198,7 +194,6 @@ class ParlisScraper(object):
         """
         return (self.year >= 1990 and self.year <= 1994)
     
-    
     def _needs2003Workaround(self):
         """
         Checks if the instances needs to make use of some workarounds for 2003s.
@@ -207,7 +202,6 @@ class ParlisScraper(object):
         @rtype: boolean
         """
         return (self.year >= 1995 and self.year <= 2003)
-    
     
     def startScraping(self):
         """
