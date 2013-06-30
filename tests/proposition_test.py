@@ -1,6 +1,7 @@
 import unittest
 
-from proposition import Proposition
+from parlisscraper.proposition import Proposition
+
 
 class PropositionTest(unittest.TestCase):
 	def setUp(self):

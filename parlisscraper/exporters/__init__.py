@@ -1,4 +1,4 @@
-__all__ = ['CSVExporter', 'XMLExporter']
+from __future__ import absolute_import
 
-from CSVExporter import CSVExporter
-from XMLExporter import XMLExporter
+from .CSVExporter import CSVExporter
+from .XMLExporter import XMLExporter

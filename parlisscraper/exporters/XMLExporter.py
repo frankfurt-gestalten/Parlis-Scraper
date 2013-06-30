@@ -1,6 +1,6 @@
 import xml.dom
 
-from exporters import Exporter
+from parlisscraper.exporters.exporters import Exporter
 
 
 class XMLExporter(Exporter):

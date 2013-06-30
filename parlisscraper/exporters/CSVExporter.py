@@ -1,6 +1,6 @@
 from csv import writer
 
-from exporters import Exporter
+from parlisscraper.exporters.exporters import Exporter
 
 
 class CSVExporter(Exporter):

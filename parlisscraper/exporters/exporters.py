@@ -10,12 +10,6 @@ class Exporter(object):
     Abstract base class to export Propositions.
     '''
 
-    def __init__(self):
-        '''
-        Constructor
-        '''
-        pass
-
     def createExport(self, propositions):
         '''
         Exports the given Propositions.
