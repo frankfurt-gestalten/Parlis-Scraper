@@ -11,6 +11,8 @@ setup(
     author_email='der@nik0.de',
     #url='http://www.frankfurt-gestalten.de/',
     requires=['BeautifulSoup (==3.2.0)'],
-    packages=['parlisscraper', 'parlisscraper.exporters', 'parlisscraper.extractors'],
+    packages=['parlisscraper',
+              'parlisscraper.exporters',
+              'parlisscraper.extractors'],
     scripts=['scripts/parlisscraper']
 )
