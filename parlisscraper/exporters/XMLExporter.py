@@ -1,9 +1,9 @@
 import xml.dom
 
-from parlisscraper.exporters.exporters import Exporter
+from parlisscraper.exporters import BaseExporter
 
 
-class XMLExporter(Exporter):
+class XMLExporter(BaseExporter):
     """
     This class creates XML
     """

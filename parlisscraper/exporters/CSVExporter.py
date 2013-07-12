@@ -1,9 +1,9 @@
 from csv import writer
 
-from parlisscraper.exporters.exporters import Exporter
+from parlisscraper.exporters import BaseExporter
 
 
-class CSVExporter(Exporter):
+class CSVExporter(BaseExporter):
     '''
     A class to export the propositions into a .csv-file.
     '''

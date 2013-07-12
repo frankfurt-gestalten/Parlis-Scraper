@@ -5,7 +5,7 @@ This module contains various classes to export the retrieved data.
 '''
 
 
-class Exporter(object):
+class BaseExporter(object):
     '''
     Abstract base class to export Propositions.
     '''
@@ -17,4 +17,4 @@ class Exporter(object):
         @param *propositions: The propositions to export.
         @type **propositions: sequence of Proposition.
         '''
-        pass
+        raise NotImplementedError("Can't export.")
