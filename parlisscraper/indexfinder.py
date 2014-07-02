@@ -144,7 +144,7 @@ class ParlisIndexFinder(object):
         @return: Total number of document for this year.
         @rtype: str
         """
-        itemCountPattern = "Treffer:\W(\d{2,4})"
+        itemCountPattern = "Dokumente:.*von\W+(\d+)"
         pageContent = str(soupInstance)
         patternResults = re.search(itemCountPattern, pageContent)
         itemCount = int(patternResults.group(1))
