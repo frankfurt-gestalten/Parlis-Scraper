@@ -184,4 +184,8 @@ class ParlisIndexFinder(object):
 
         Built-in python function.
         """
-        return "%s for year %i" % (self.__class__.__name__, self.year)
+        return "{classname}({year}, outputFile={file})".format(
+            classname=self.__class__.__name__,
+            year=self.year,
+            outputFile=self.outputFile
+        )
