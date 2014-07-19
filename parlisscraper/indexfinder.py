@@ -18,7 +18,6 @@ class ParlisIndexFinder(object):
     This class can be used to retrieve a list of IDs that can be used for scraping.
     It will create a file called 'YYYY-IDlist.txt' where YYYY is the year.
     """
-    EXPECTED_NUMBER_OF_DOKLINKS = 57
 
     def __init__(self, year, outputFile=None):
         """
@@ -43,8 +42,7 @@ class ParlisIndexFinder(object):
         self.retrievedTotalNumberOfDocuments = False
         self.collectedItems = []
 
-        #pre compile RegExp for the speed:
-        self.linkPattern = re.compile("OF_(\d{1,4})-(\d{1,2})_(\d{4})", re.I)
+        self.linkToDocumentPattern = re.compile(r"/PARLISLINK/DDW\?W%3DVORLAGEART\+INC\+%27OF%27\+AND\+JAHR\+%3D\+2014\+AND\+DOKUMENTTYP\+%3D\+%27VORL%27\+ORDER\+BY\+SORTFELD/Descend%26M%3D\d+%26K%3D(?P<documentID>OF_\d{1,4}-\d{1,2}_\d{4})%26R%3DY%22%26U%3D1", re.IGNORECASE)
 
     def __getLinkList(self):
         """
@@ -103,13 +101,12 @@ class ParlisIndexFinder(object):
         for singleLink in listWithLinks:
             link = str(singleLink)
 
-            check = link.find("DOKLINK")
-
-            if(check == self.EXPECTED_NUMBER_OF_DOKLINKS):
-                vorlagennummer = self.linkPattern.search(link)
+            match = self.linkToDocumentPattern.search(link)
+            if match and match.group('documentID'):
+                vorlagennummer = match.group('documentID')
 
                 try:
-                    IDlist.append(vorlagennummer.group(0))
+                    IDlist.append(vorlagennummer)
                 except AttributeError, aerr:
                     print "Caught AttributeError when adding ID to list."
                     print "\t Error: %s" % aerr
