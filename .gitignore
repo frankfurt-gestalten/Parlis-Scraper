@@ -1,3 +1,6 @@
 *.py[co]
 *.csv
 *.xml
+*~
+*-IDlist.txt
+*-antraege.csv
