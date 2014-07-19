@@ -117,7 +117,7 @@ class ParlisIndexFinder(object):
 
         return IDlist
 
-    def __writeIDListToFile(self, documentID):
+    def _writeDocumentIDToFile(self, documentID):
         """
         Write the supplied list of IDs into a text file.
         The file-mode is 'append' so existing results won't be deleted.
@@ -166,10 +166,7 @@ class ParlisIndexFinder(object):
             for documentID in IDliste:
                 if documentID not in self.collectedItems:
                     self.collectedItems.add(documentID)
-                    self.__writeIDListToFile(documentID)
-                else:
-                    #Item already in list
-                    continue
+                    self._writeDocumentIDToFile(documentID)
 
             #Feedback for the user, so he sees how many entries have been scraped
             print "Year %i: %s items left to process" % (self.year, (self.end - self.start))
