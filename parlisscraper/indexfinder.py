@@ -43,6 +43,7 @@ class ParlisIndexFinder(object):
         self.collectedItems = []
 
         self.linkToDocumentPattern = re.compile(r"/PARLISLINK/DDW\?W%3DVORLAGEART\+INC\+%27OF%27\+AND\+JAHR\+%3D\+2014\+AND\+DOKUMENTTYP\+%3D\+%27VORL%27\+ORDER\+BY\+SORTFELD/Descend%26M%3D\d+%26K%3D(?P<documentID>OF_\d{1,4}-\d{1,2}_\d{4})%26R%3DY%22%26U%3D1", re.IGNORECASE)
+        self.itemCountPattern = re.compile("Dokumente:.*von\W+(?P<documentCount>\d+)")
 
     def __getLinkList(self):
         """
@@ -143,10 +144,9 @@ class ParlisIndexFinder(object):
         @return: Total number of document for this year.
         @rtype: str
         """
-        itemCountPattern = "Dokumente:.*von\W+(\d+)"
         pageContent = str(soupInstance)
-        patternResults = re.search(itemCountPattern, pageContent)
-        itemCount = int(patternResults.group(1))
+        patternResults = self.itemCountPattern.search(pageContent)
+        itemCount = int(patternResults.group('documentCount'))
 
         print "Found total number of %i documents" % itemCount
 
