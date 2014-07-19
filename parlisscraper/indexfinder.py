@@ -78,12 +78,12 @@ class ParlisIndexFinder(object):
             if self.retrievedTotalNumberOfDocuments is False:
                 self.end = self.__getTotalNumberOfDocuments(soup)
                 self.retrievedTotalNumberOfDocuments = True
-        except AttributeError, aerr:
+        except AttributeError as aerr:
             print aerr
             print "Aborting the search for indexes."
             #This is mostly a failure of getting the total number of items.
             self.end = 0
-        except Exception, err:
+        except Exception as err:
             #Problems? Give out some information
             print err
 
@@ -109,7 +109,7 @@ class ParlisIndexFinder(object):
 
                 try:
                     IDlist.append(vorlagennummer)
-                except AttributeError, aerr:
+                except AttributeError as aerr:
                     print "Caught AttributeError when adding ID to list."
                     print "\t Error: %s" % aerr
                     print "\t Link: %s" % link
@@ -126,11 +126,11 @@ class ParlisIndexFinder(object):
         """
         try:
             with open(self.outputFile, 'a') as filehandle:
-                filehandle.write("%s\n" % documentID)
-        except IOError, ioe:
+                filehandle.write("{0}\n".format(documentID))
+        except IOError as ioe:
             #Most obvious error will occur when writing the file...
             print "Error writing file '%s':\n%s" % (self.outputFile, ioe)
-        except Exception, err:
+        except Exception as err:
             #General error handling for everything else
             print err
 

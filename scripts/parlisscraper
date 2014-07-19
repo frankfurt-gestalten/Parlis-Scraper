@@ -36,7 +36,7 @@ def startWorkflow(startYear=None, endYear=None, onlySearchIndexes=False,
             try:
                 csvExporter = CSVExporter(scrape.outputFile)
                 csvExporter.createExport(scrapingResults)
-            except Exception, err:
+            except Exception as err:
                 print "%s\n-> Failed to write CSV. Writing XML." % (err, )
                 xmlExporter = XMLExporter('%s.xml' % scrape.outputFile)
                 xmlExporter.createExport(scrapingResults)

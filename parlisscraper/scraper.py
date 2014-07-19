@@ -62,7 +62,7 @@ class ParlisScraper(object):
         try:
             page = urllib2.urlopen(link)
             soup = BeautifulSoup(page)
-        except Exception, err:
+        except Exception as err:
             print "Error receiving '%s':\n%s" % (link, err)
 
         return soup
@@ -96,7 +96,7 @@ class ParlisScraper(object):
             proposition.statement = extractor.getStatement()
             proposition.subject = extractor.getSubject()
             proposition.updateDate = extractor.getUpdateDate()
-        except Exception, err:
+        except Exception as err:
             print ('Could not extract all the needed data: %s\n'
                    'Extractor used: %s' % (err, extractor))
             traceback.print_exc()
@@ -130,10 +130,10 @@ class ParlisScraper(object):
             csvWriter = csv.writer(open(self.outputFile, 'ab'),
                                    delimiter=',', quotechar='"')
             csvWriter.writerow(content)
-        except IOError, ioerr:
+        except IOError as ioerr:
             #Most obvious error will occur when writing the file...
             print "Error writing file '%s':\n%s" % (self.outputFile, ioerr)
-        except Exception, err:
+        except Exception as err:
             #General error handling for everything else
             print err
 
@@ -163,13 +163,13 @@ class ParlisScraper(object):
                 try:
                     proposition = self._getPropositionFromExtractor(link)
                     collectedPropositions.append(proposition)
-                except Exception, err:
+                except Exception as err:
                     print 'Failed to get proposition from %s: %s' % (link, err)
                     traceback.print_exc()
 
                 #Wait a few seconds so the server can handle the load...
                 time.sleep(self.sleepingTimeInSeconds)
-        except IOError, ioe:
+        except IOError as ioe:
             print "Error reading from file '%s':\n%s" % (inputFile, ioe)
 
         return sorted(collectedPropositions, key=lambda prop: prop.updateDate,
