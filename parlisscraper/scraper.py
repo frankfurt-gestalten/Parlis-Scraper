@@ -36,15 +36,12 @@ class ParlisScraper(object):
         @param outputFile: File into wich the data is saved.
         @type outputFile: str
         """
-
-        #This is the plan B if no filenames are specified.
-        if(inputFile is None):
+        if inputFile is None:
             inputFile = "%s-IDlist.txt" % year
 
-        if(outputFile is None):
+        if outputFile is None:
             outputFile = "%s-antraege.csv" % year
 
-        #Configure the class
         self.year = year
         self.outputFile = outputFile
         self.inputFile = inputFile

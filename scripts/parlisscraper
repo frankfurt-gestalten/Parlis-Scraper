@@ -23,13 +23,13 @@ def startWorkflow(startYear=None, endYear=None, onlySearchIndexes=False,
     for year in range(startYear, endYear + 1):
         print "Processing year %s" % year
 
-        if(not onlyScrapeFiles):
+        if not onlyScrapeFiles:
             print "Start looking for indexes"
             indexer = ParlisIndexFinder(year)
             indexer.startSearching()
             print "Finished looking for indexes"
 
-        if(not onlySearchIndexes):
+        if not onlySearchIndexes:
             scrape = ParlisScraper(year)
 
             scrapingResults = scrape.startScraping()
