@@ -157,15 +157,15 @@ class ParlisIndexFinder(object):
         Starts the search for indexes and writes the results into a file.
         """
         print "Starting to search for indexes"
-        self.collectedItems = []
+        self.collectedItems = set()
 
-        while (self.start < self.end):
+        while self.start < self.end:
             link = self.__getLinkList()
             IDliste = self.__graspID(link)
 
             for documentID in IDliste:
-                if not documentID in self.collectedItems:
-                    self.collectedItems.append(documentID)
+                if documentID not in self.collectedItems:
+                    self.collectedItems.add(documentID)
                     self.__writeIDListToFile(documentID)
                 else:
                     #Item already in list
