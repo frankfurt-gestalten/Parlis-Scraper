@@ -55,15 +55,17 @@ class ParlisIndexFinder(object):
         @return: A list with links.
         @rtype: list
         """
-        startlist = str(self.start)
-
         linkListe = []
 
-        linkstart = "http://www.stvv.frankfurt.de/PARLISLINK/SDW?W%3DVORLAGEART+INC+%27OF%27+AND+JAHR+%3D+" + str(self.year) + "+AND+DOKUMENTTYP+%3D+%27VORL%27+ORDER+BY+SORTFELD/Descend%26M%3D"
-        linkend = "%26R%3DY%22"
-
         #Build the link to the page that contains the links
-        linkcon = linkstart + startlist + linkend
+        linkcon = ("http://www.stvv.frankfurt.de/PARLISLINK/SDW?"
+            "W%3DVORLAGEART+INC+%27OF%27+AND+JAHR+%3D+{year}+AND+"
+            "DOKUMENTTYP+%3D+%27VORL%27+ORDER+BY+SORTFELD/Descend"
+            "%26M%3D{startingpoint}%26R%3DY%22".format(
+                startingpoint=self.start,
+                year=self.year
+            )
+        )
 
         try:
             #Open the url and parse it.
