@@ -38,6 +38,7 @@ class ParlisIndexFinder(object):
 
         self.year = year
         self.outputFile = outputFile
+        self._file_created = False
 
         self.retrievedTotalNumberOfDocuments = False
         self.collectedItems = []
@@ -125,8 +126,14 @@ class ParlisIndexFinder(object):
         @param documentID: a single document ID.
         @type documentID: list
         """
+        if self._file_created:
+            write_mode = 'a'
+        else:
+            write_mode = 'w'
+            self._file_created = True
+
         try:
-            with open(self.outputFile, 'a') as filehandle:
+            with open(self.outputFile, write_mode) as filehandle:
                 filehandle.write("{0}\n".format(documentID))
         except IOError as ioe:
             #Most obvious error will occur when writing the file...
