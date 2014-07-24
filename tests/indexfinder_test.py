@@ -37,6 +37,8 @@ class IndexFinderTestCase(unittest.TestCase):
             '<a href="/PARLISLINK/DDW?W%3DVORLAGEART+INC+%27OF%27+AND+JAHR+%3D+2014+AND+DOKUMENTTYP+%3D+%27VORL%27+ORDER+BY+SORTFELD/Descend%26M%3D42%26K%3DOF_1037-6_2014%26R%3DY%22%26U%3D1">Maßvolle Bebauung in Sindlingen - Grüne Lunge erhalten und verbessern</a>',
             '<a href="/PARLISLINK/DDW?W%3DVORLAGEART+INC+%27OF%27+AND+JAHR+%3D+2014+AND+DOKUMENTTYP+%3D+%27VORL%27+ORDER+BY+SORTFELD/Descend%26M%3D43%26K%3DOF_1036-6_2014%26R%3DY%22%26U%3D1">Sicherheit für spielende Kinder in der Parkstadt Unterliederbach</a>',
             '<a href="/PARLISLINK/DDW?W%3DVORLAGEART+INC+%27OF%27+AND+JAHR+%3D+2014+AND+DOKUMENTTYP+%3D+%27VORL%27+ORDER+BY+SORTFELD/Descend%26M%3D52%26K%3DOF_1027-6_2014%26R%3DY%22%26U%3D1">Geländer auf dem Bürgersteig im Nieder Kirchweg entfernen</a>',
+            '<a href="/PARLISLINK/DDW?W%3DVORLAGEART+INC+%27OF%27+AND+JAHR+%3D+2013+AND+DOKUMENTTYP+%3D+%27VORL%27+ORDER+BY+SORTFELD/Descend%26M%3D22%26K%3DOF_883-6_2013%26R%3DY%22%26U%3D1">Zukunft der Karl-Oppermann-Schule und der Kasinoschule</a>',
+
         ]
 
         for link in wanted_links:
