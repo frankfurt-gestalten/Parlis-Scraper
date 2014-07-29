@@ -5,11 +5,14 @@ Created on 25.06.2011
 @author: niko
 '''
 import datetime
+import logging
 from optparse import OptionParser
 
 from parlisscraper.exporters import CSVExporter, XMLExporter
 from parlisscraper.indexfinder import ParlisIndexFinder
 from parlisscraper.scraper import ParlisScraper
+
+LOGGER = logging.getLogger('parlisscraper')
 
 
 def startWorkflow(startYear=None, endYear=None, onlySearchIndexes=False,
@@ -21,13 +24,13 @@ def startWorkflow(startYear=None, endYear=None, onlySearchIndexes=False,
         endYear = datetime.date.today().year
 
     for year in range(startYear, endYear + 1):
-        print "Processing year %s" % year
+        LOGGER.info("Processing year {0}".format(year))
 
         if not onlyScrapeFiles:
-            print "Start looking for indexes"
+            LOGGER.info("Start looking for indexes")
             indexer = ParlisIndexFinder(year)
             indexer.startSearching()
-            print "Finished looking for indexes"
+            LOGGER.info("Finished looking for indexes")
 
         if not onlySearchIndexes:
             scrape = ParlisScraper(year)
@@ -37,7 +40,7 @@ def startWorkflow(startYear=None, endYear=None, onlySearchIndexes=False,
                 csvExporter = CSVExporter(scrape.outputFile)
                 csvExporter.createExport(scrapingResults)
             except Exception as err:
-                print "%s\n-> Failed to write CSV. Writing XML." % (err, )
+                LOGGER.error("Failed to write CSV. Writing XML. Error: {0}".format(err, ))
                 xmlExporter = XMLExporter('%s.xml' % scrape.outputFile)
                 xmlExporter.createExport(scrapingResults)
 
