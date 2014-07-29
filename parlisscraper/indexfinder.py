@@ -14,7 +14,7 @@ try:
 except ImportError:
     from urllib2 import urlopen
 
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 LOGGER = logging.getLogger('parlisscraper')
 

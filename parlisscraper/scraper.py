@@ -17,7 +17,7 @@ try:
 except ImportError:
     from urllib2 import urlopen
 
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 from .proposition import Proposition
 from .extractors import (DataExtractor, DataExtractor1990, DataExtractor2003,
