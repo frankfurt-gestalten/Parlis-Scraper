@@ -5,12 +5,18 @@ This modules creates a list of files names for use with the parlis scraper.
 
 It will create a file called 'YYYY-IDlist.txt' where YYYY is the year.
 """
-import urllib2
+import logging
 import re
 import time
 
-#HTML Parser
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen
+
 from BeautifulSoup import BeautifulSoup
+
+LOGGER = logging.getLogger('parlisscraper')
 
 
 class ParlisIndexFinder(object):
@@ -70,24 +76,21 @@ class ParlisIndexFinder(object):
         )
 
         try:
-            #Open the url and parse it.
-            page = urllib2.urlopen(linkcon)
+            page = urlopen(linkcon)
             soup = BeautifulSoup(page)
 
-            #Get all links from the file
             linkListe = soup.findAll('a')
 
             if self.retrievedTotalNumberOfDocuments is False:
                 self.end = self.__getTotalNumberOfDocuments(soup)
                 self.retrievedTotalNumberOfDocuments = True
         except AttributeError as aerr:
-            print aerr
-            print "Aborting the search for indexes."
             #This is mostly a failure of getting the total number of items.
+            LOGGER.error("Aborting the search for indexes: {0}".format(aerr))
             self.end = 0
         except Exception as err:
             #Problems? Give out some information
-            print err
+            LOGGER.error(err)
 
         return linkListe
 
@@ -112,9 +115,9 @@ class ParlisIndexFinder(object):
                 try:
                     IDlist.append(vorlagennummer)
                 except AttributeError as aerr:
-                    print "Caught AttributeError when adding ID to list."
-                    print "\t Error: %s" % aerr
-                    print "\t Link: %s" % link
+                    LOGGER.error(
+                        "Failed to add ID to list - link: {link} - error: {error}".format(link=link, error=aerr)
+                    )
 
         return IDlist
 
@@ -137,10 +140,13 @@ class ParlisIndexFinder(object):
                 filehandle.write("{0}\n".format(documentID))
         except IOError as ioe:
             #Most obvious error will occur when writing the file...
-            print "Error writing file '%s':\n%s" % (self.outputFile, ioe)
+            LOGGER.error("Error writing file '{filename}': {error}".format(
+                filename=self.outputFile,
+                error=ioe
+            ))
         except Exception as err:
             #General error handling for everything else
-            print err
+            LOGGER.error(err)
 
     def __getTotalNumberOfDocuments(self, soupInstance):
         """
@@ -155,7 +161,7 @@ class ParlisIndexFinder(object):
         patternResults = self.itemCountPattern.search(pageContent)
         itemCount = int(patternResults.group('documentCount'))
 
-        print "Found total number of %i documents" % itemCount
+        LOGGER.info("Found total number of {0} documents".format(itemCount))
 
         return itemCount
 
@@ -163,7 +169,7 @@ class ParlisIndexFinder(object):
         """
         Starts the search for indexes and writes the results into a file.
         """
-        print "Starting to search for indexes"
+        LOGGER.info("Starting to search for indexes")
         self.collectedItems = set()
 
         while self.start < self.end:
@@ -175,14 +181,13 @@ class ParlisIndexFinder(object):
                     self.collectedItems.add(documentID)
                     self._writeDocumentIDToFile(documentID)
 
-            #Feedback for the user, so he sees how many entries have been scraped
-            print "Year %i: %s items left to process" % (self.year, (self.end - self.start))
+            LOGGER.info("Year {year}: {0} items left to process".format(self.end - self.start, year=self.year))
             self.start += 20
 
             #sleep a little bit. We don't want to crash the server (poor hardware ;))
             time.sleep(self.searchDelay)
 
-        print "Finished scraping the indexes."
+        LOGGER.info("Finished scraping the indexes.")
 
     def __repr__(self):
         """

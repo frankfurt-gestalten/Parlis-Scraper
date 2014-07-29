@@ -4,8 +4,11 @@ Created on 09.10.2011
 
 @author: niko
 '''
+import logging
 import re
 from datetime import date
+
+LOGGER = logging.getLogger('parlisscraper')
 
 
 class DataExtractor(object):
@@ -134,7 +137,7 @@ class DataExtractor(object):
             returnSubject = re.sub("Betreff: </p>", "", self._getSubjectWithAntragssteller(matchAntragssteller))
         else:
             returnSubject = " "
-            print("Betreff leer")
+            LOGGER.debug("Betreff leer")
 
         #TODO: add function that removes all HTML tags
         returnSubject = re.sub("Antragsteller:", "", returnSubject)
@@ -156,7 +159,7 @@ class DataExtractor(object):
             splittedDate = newDate.split('.')
             return date(int(splittedDate[2]), int(splittedDate[1]), int(splittedDate[0])).isoformat()
         except AttributeError:
-            print "Could not get update date, assigning None."
+            LOGGER.error("Could not get update date, assigning None.")
             return None
 
     def getUpdateDate(self):
@@ -175,7 +178,7 @@ class DataExtractor(object):
         partei = ""
 
         matchPartei = re.search(self._getPartyPattern(), self._getSourceCode())
-        if (matchPartei != None):
+        if matchPartei is not None:
             cleanPartei = self._cleanHTML(matchPartei.group(1))
 
             #RE compilen für bessere performance. Case-insensitive matching
@@ -188,7 +191,7 @@ class DataExtractor(object):
 
             partei = ', '.join(parties)
         else:
-            print("Partei leer")
+            LOGGER.debug("Partei leer")
 
         return partei
 
@@ -206,13 +209,12 @@ class DataExtractor(object):
 
         matchBeg = re.search(self._getStatementPattern(), self._getSourceCode())
 
-        if matchBeg != None:
+        if matchBeg is not None:
             cleanBeg = self._quoteChange(matchBeg.group(0))
             begruendung = re.sub(self._getAntragstellerPattern(), "", cleanBeg)
             begruendung = self._cleanHTML(begruendung)
         else:
-
-            print("Begruendung leer")
+            LOGGER.debug("Begruendung leer")
 
         return begruendung
 
@@ -242,7 +244,7 @@ class DataExtractor(object):
             ergebnisse = ergebnisse + self._quoteChange(self.__extractTableInformation(str(table)))
         else:
             ergebnisse = " "
-            print("Ergebnisse leer")
+            LOGGER.debug("Ergebnisse leer")
 
         #Zusatz weil clean html hier nicht funktioniert
         ergebnisse = re.sub("<p class=MsoNormal>&nbsp;.*?</p>", "", ergebnisse)

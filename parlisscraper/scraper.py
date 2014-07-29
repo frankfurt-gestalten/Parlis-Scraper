@@ -6,16 +6,24 @@ It will retrieve the pages from parlis and store there contents in a .csv-file.
 """
 from __future__ import absolute_import
 
-from BeautifulSoup import BeautifulSoup
 import csv
+import logging
 import re
 import time
-import urllib2
 import traceback
+
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen
+
+from BeautifulSoup import BeautifulSoup
 
 from .proposition import Proposition
 from .extractors import (DataExtractor, DataExtractor1990, DataExtractor2003,
-                        DataExtractor2006)
+                         DataExtractor2006)
+
+LOGGER = logging.getLogger('parlisscraper')
 
 
 class ParlisScraper(object):
@@ -60,10 +68,10 @@ class ParlisScraper(object):
         soup = None
 
         try:
-            page = urllib2.urlopen(link)
+            page = urlopen(link)
             soup = BeautifulSoup(page)
         except Exception as err:
-            print "Error receiving '%s':\n%s" % (link, err)
+            LOGGER.error("Error receiving '{link}': {error}".format(link=link, error=err))
 
         return soup
 
@@ -84,23 +92,21 @@ class ParlisScraper(object):
 
         try:
             proposition = Proposition(
-                                      extractor.getTitle(),
-                                      extractor.getDate(),
-                                      extractor.getLink(),
-                                      extractor.getParty(),
-                                      extractor.getPropositionNumber(),
-                                      extractor.getOBNumber()
-                                      )
+                extractor.getTitle(),
+                extractor.getDate(),
+                extractor.getLink(),
+                extractor.getParty(),
+                extractor.getPropositionNumber(),
+                extractor.getOBNumber()
+            )
 
             proposition.result = extractor.getResult()
             proposition.statement = extractor.getStatement()
             proposition.subject = extractor.getSubject()
             proposition.updateDate = extractor.getUpdateDate()
         except Exception as err:
-            print ('Could not extract all the needed data: %s\n'
-                   'Extractor used: %s' % (err, extractor))
+            LOGGER.error('Could not extract all the needed data (extractor: {0}): {error}'.format(extractor, error=err))
             traceback.print_exc()
-            #Throw this on to the next instance...
             raise
 
         return proposition
@@ -131,11 +137,9 @@ class ParlisScraper(object):
                                    delimiter=',', quotechar='"')
             csvWriter.writerow(content)
         except IOError as ioerr:
-            #Most obvious error will occur when writing the file...
-            print "Error writing file '%s':\n%s" % (self.outputFile, ioerr)
+            LOGGER.error("Error writing file '{filename}': {error}".format(filename=self.outputFile, error=ioerr))
         except Exception as err:
-            #General error handling for everything else
-            print err
+            LOGGER.error(err)
 
     def __loadIndex(self, inputFile):
         """
@@ -154,23 +158,23 @@ class ParlisScraper(object):
 
             for line in inputFileHandle:
                 #Create url
-                link = ("http://stvv.frankfurt.de/PARLISLINK/DDW?W=DOK_NAME="
-                        "'%s'" % (re.sub("\n", "", line), ))
+                link = "http://stvv.frankfurt.de/PARLISLINK/DDW?W=DOK_NAME='{id}'".format(
+                    id=re.sub("\n", "", line)
+                )
 
-                #Some output for the user
-                print "Nummer %i (%s)" % (len(collectedPropositions) + 1, link)
+                LOGGER.info("Nummer {0} ({link})".format(len(collectedPropositions) + 1, link=link))
 
                 try:
                     proposition = self._getPropositionFromExtractor(link)
                     collectedPropositions.append(proposition)
                 except Exception as err:
-                    print 'Failed to get proposition from %s: %s' % (link, err)
+                    LOGGER.error('Failed to get proposition from {link}: {error}'.format(link=link, error=err))
                     traceback.print_exc()
 
                 #Wait a few seconds so the server can handle the load...
                 time.sleep(self.sleepingTimeInSeconds)
         except IOError as ioe:
-            print "Error reading from file '%s':\n%s" % (inputFile, ioe)
+            LOGGER.error("Error reading from file '{filename}': {error}".format(filename=inputFile, error=ioe))
 
         return sorted(collectedPropositions, key=lambda prop: prop.updateDate,
                       reverse=True)
@@ -206,9 +210,9 @@ class ParlisScraper(object):
         """
         Start the scraping.
         """
-        print "Starting to scrape..."
+        LOGGER.info("Starting to scrape...")
         scrapedPropositions = self.__loadIndex(self.inputFile)
-        print "Finished scraping"
+        LOGGER.info("Finished scraping")
 
         return scrapedPropositions
 
