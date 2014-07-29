@@ -15,6 +15,8 @@ class DataExtractor(object):
     """
     This class is used to get data from a proposition page in PARLIS.
     """
+    PARTY_PATTERN = re.compile("(FREIE WÄHLER|LINKE\.|[\wÜÖÄ]+)\s+", flags=re.I | re.L)
+
     def __init__(self, link, pageContent):
         self._link = link
         self._pageContent = pageContent
@@ -180,16 +182,7 @@ class DataExtractor(object):
         matchPartei = re.search(self._getPartyPattern(), self._getSourceCode())
         if matchPartei is not None:
             cleanPartei = self._cleanHTML(matchPartei.group(1))
-
-            #RE compilen für bessere performance. Case-insensitive matching
-            reObj = re.compile("(FREIE WÄHLER|LINKE\.|[\wÜÖÄ]+)\s+", flags=re.I | re.L)
-
-            parties = []
-
-            for x in reObj.findall(cleanPartei):
-                parties.append(x)
-
-            partei = ', '.join(parties)
+            partei = ', '.join([party for party in self.PARTY_PATTERN.findall(cleanPartei)])
         else:
             LOGGER.debug("Partei leer")
 
