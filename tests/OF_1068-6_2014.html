@@ -1,0 +1,334 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="de">
+<head>
+<title>PARLIS - Trauerhalle in Zeilsheim</title>
+<meta content="Parlamentarische Vorlagen mit Beratungsergebnissen, Niederschriften der Stadtverordnetenversammlung, ihrer Ausschuesse sowie der Ortsbeiraete, Beschlussausfertigungen, Uebersichten der Fragestunden der Stadtverordnetenversammlung und Wortprotokolle" name="description">
+<meta content="Stadtverordnetenversammlung, Frankfurt am Main, Vorlagen, Niederschriften, Plenarsitzung, Ausschuesse, Ortsbeiraete" name="keywords">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+<meta content="text/css" http-equiv="Content-Style-Type">
+<link href="/parlis2/favicon.ico" rel="shortcut icon" type="image/x-icon">
+<meta content="0" http-equiv="expires">
+<meta content="30 days" name="REVISIT-AFTER">
+<meta content="Buero der Stadtverordnetenversammlung Frankfurt am Main" name="publisher">
+<meta content="Buero der Stadtverordnetenversammlung Frankfurt am Main" name="copyright">
+<meta content="Parlamentsinformationssystem Stadt Frankfurt am Main" name="page-topic">
+<meta content="Buero der Stadtverordnetenversammlung Frankfurt am Main" name="author">
+<meta content="INDEX,FOLLOW" name="robots">
+<meta content="de" name="language">
+<script src="/parlis2/parlis2.js" type="text/javascript"></script>
+<!-- externe css-datei -->
+<link href="/parlis2/main2.css" rel="stylesheet" type="text/css">
+<link href="/parlis2/print.css" media="print" rel="stylesheet" type="text/css">
+<link href="/parlis2/smart.css" media="only screen and (max-device-height:960px)" rel="stylesheet" type="text/css">
+<link href="/parlis2/smart.css" media="only screen and (max-device-width:960px)" rel="stylesheet" type="text/css">
+</link></link></link></link></meta></meta></meta></meta></meta></meta></meta></meta></link></meta></meta></meta></meta></head>
+<body>
+<script type="text/javascript">
+<!--
+window.status = " ";
+
+//alert(sessionStorage.version);
+
+if (sessionStorage.version=="2")
+{
+//alert("neu"); //#########################################################################
+   sessionStorage.berechtigung= '0';
+   document.writeln('<div class="wrapper">');
+
+
+//-- Titel --
+if ("1" > "1")
+{
+    sessionStorage.trefferliste = '/PARLISLINK/SDW?W%3DDOK_NAME%3D%27OF_1068-6_2014%27%26M%3D1%26R%3DY';
+    sessionStorage.etrefferliste = '/PARLISLINK/EDW?W%3DDOK_NAME%3D%27OF_1068-6_2014%27%26M%3D1%26R%3DY';
+}
+titel(sessionStorage.nav + ' -&gt; Dokumentanzeige');
+
+//-- Links --
+ links();
+
+//--Mitte--
+document.writeln('<div class="wrapmitte">');
+
+document.writeln('<div class="mitte">');
+document.writeln('<div id="dbdocs"><div class="ausblenden">');
+
+//---Kopf-Navigation--------------------------------------------------------------------------------
+document.writeln('Dokument: <span style="color:#EE0000">1</' + 'span> von 1');
+document.writeln(' &nbsp; ');
+
+//--Zurück
+if ("" == "1")
+{
+      document.writeln('<a class="nav" href="" title="Vorheriges Dokument"');
+      document.writeln('onclick="sessionStorage.trefferliste=\'S\';">Zurück</' + 'a>');
+}
+else
+      document.writeln('<span class="grau">Zurück</' + 'span>');
+document.writeln(' | ');
+
+//-- Nächstes Dokument
+if ("" == "1")
+{  document.writeln('<a class="nav" href="" title="N&auml;chstes Dokument" ');
+   document.writeln('onclick="sessionStorage.trefferliste=\'S\';">Weiter</' + 'a>');}
+else
+   document.writeln('<span class="grau">Weiter</' + 'span>');
+document.writeln(' &nbsp; || &nbsp; ');
+
+//-- Trefferliste
+if (sessionStorage.trefferliste == "S" ) //bei einem Treffer nicht anbieten
+   document.writeln('<span class="grau">Trefferliste</' + 'span>');
+else
+   document.writeln('<a class="nav" href="' + sessionStorage.trefferliste + '">Trefferliste</' + 'a>');
+document.writeln(' | ');
+
+//-- Erw. Trefferliste
+if (sessionStorage.trefferliste == "S" ) //bei einem Treffer nicht anbieten
+   document.writeln('<span class="grau">Erweiterte&nbsp;Trefferliste</' + 'span>');
+else
+   document.writeln('<a class="nav" href="' + sessionStorage.etrefferliste + '">Erweiterte&nbsp;Trefferliste</' + 'a>');
+document.writeln(' &nbsp; || &nbsp; ');
+
+var link_download = 'OF_1068-6_2014';
+var text_download;
+if ("application/pdf" == "application/octet-stream" )
+     {link_download = link_download + ".exe";
+     text_download = 'Download starten';}
+else
+    {link_download = link_download + ".pdf";
+     text_download = 'Dokument als PDF-Datei laden'}
+if ('0' != '0')
+     if ("application/pdf" == "application/octet-stream" )
+        link_download = "/parlis2/download1.php?D=" + link_download;
+     else
+        link_download = '/PARLIS2S/DDD/'+ link_download + '" Target="_blank' ;
+else
+     link_download = '/download/' + link_download + '" Target="_blank' ;
+
+if ("application/pdf" == "application/pdf" || "application/pdf" == "application/octet-stream" )
+      document.writeln('<a class="nav" href="' + link_download + ')">PDF-Dokument</' + 'a>');
+else
+   document.writeln('<span class="grau">PDF-Dokument</' + 'span>');
+
+if (document.all)
+   document.writeln(' | <a class="nav" href="javascript:Lesezeichen()" title="Seite als Favorit speichern">Lesezeichen</' + 'a>');
+
+document.writeln(' &nbsp; || &nbsp; ');
+document.writeln('<a class="nav" href="#top">Zum&nbsp;Anfang&nbsp;der&nbsp;Seite</' + 'a>');
+document.writeln(' | ');
+document.writeln('<a class="nav" href="#unten">Zum&nbsp;Ende&nbsp;der&nbsp;Seite</' + 'a>');
+document.writeln(' &nbsp; || &nbsp; <a class="nav" href="/parlis2/hilfe_da.htm" title="Hilfe zur Trefferliste">Hilfe&nbsp;zur&nbsp;Dokumentanzeige</' + 'a>');
+document.writeln('</' + 'div><br>');
+}
+
+else
+{
+//#########################################################################
+
+document.writeln('<link rel="stylesheet" type="text/css" href="/pamobil/mobil.css">');
+
+function Lesezeichen(){
+
+  var adresse = document.URL;
+  var url_part = adresse.split("\/");
+  var SeitenURL = url_part[0] + '//' +  url_part[2] + '/parlis2/parlis.php?';
+  if ('0' != '0')
+      SeitenURL = SeitenURL + "PAKET=OF_1068-6_2014 ";
+  else
+      SeitenURL = SeitenURL + "DOK=OF_1068-6_2014 ";
+  var SeitenTitel = '"PARLIS-Dokument: (Name angegeben)"';
+  var Kommentar = 'Speichern Sie Ihre Suchanfrage als Favorit';
+
+  if (window.sidebar)
+    {// firefox
+    window.sidebar.addPanel(SeitenTitel,SeitenURL,Kommentar);}
+  else if(document.all)
+    {// ie
+    window.external.AddFavorite(SeitenURL,SeitenTitel);}
+  else
+    { alert('Ihr Browser unterstützt diese Funktion nicht!'); }
+}
+
+
+
+if ('0' != '0')
+     document.writeln('<Body class=gelb>');
+   else
+     document.writeln('<Body>');
+
+} //ende version 1
+-->
+</script>
+<noscript>
+<link href="/pamobil/mobil.css" rel="stylesheet" type="text/css">
+</link></noscript>
+<script type="text/javascript">
+<!--
+//Dokumentkopf
+if (sessionStorage.version=="2")
+{
+//alert("neu"); //#########################################################################
+document.writeln('<table cellpadding="0" cellspacing="0" width="100%">');
+document.writeln('<tr>');
+document.writeln('    <td class="maske1a" colspan="4"><span style="color:#FFFFFF">');
+                      var titel = 'Trauerhalle in Zeilsheim';
+                      titel = titel.slice (0,120);
+                      document.writeln(titel);
+document.writeln('       </' + 'td>');
+document.writeln('</' + 'tr></' + 'table>');
+document.writeln('<div id="anzeige">');
+document.writeln('<a  name="top"></' + 'a>');
+document.writeln('<table cellpadding="0" cellspacing="0" width="100%">');
+
+document.writeln('<tr class="maske21">');
+document.writeln('    <td class="w20" colspan="2"><strong>Dokumentart:  </' + 'strong></' + 'td>');
+document.writeln('    <td>');
+
+        if ('VORL' == 'VORL')
+        {
+        document.writeln('Vorlage');
+        }
+        if ('VORL' == 'BESC')
+        {
+        document.writeln('Beschlussausfertigung');
+        }
+        if ('VORL' == 'FRAG')
+        {
+        document.writeln('&Uuml;bersicht der Fragestunde');
+        }
+        if ('VORL' == 'NIED')
+        {
+        document.writeln('Niederschrift');
+        }
+        if ('VORL' == 'TAGO')
+        {
+        document.writeln('Tagesordnung');
+        }
+        if ('VORL' == 'WORT')
+        {
+        document.writeln('Wortprotokoll');
+        }
+        if ('VORL' == 'TPAK' || 'VORL' == 'VPAK')
+        {
+        document.writeln('Drucksachenpaket');
+}
+
+document.writeln('   </' + 'td><td>&nbsp;</' + 'td>');
+document.writeln('</' + 'tr>');
+
+document.writeln('<tr class="maske21">');
+document.writeln('<td class="w20" colspan="2"><StrONG>Vorlage: </' + 'StrONG></' + 'td>');
+document.writeln('<td>OF&nbsp;1068</' + 'td><td>&nbsp;</' + 'td></' + 'tr>');
+
+document.writeln('<tr class="maske21">');
+document.writeln('<td class="w20" colspan="2"><StrONG>Gremium:  </' + 'StrONG></' + 'td>');
+document.writeln('<td>Ortsbeirat 6</' + 'td><td>&nbsp;</' + 'td></' + 'tr>');
+
+document.writeln('<tr class="maske21">');
+document.writeln('<td colspan="2"><StrONG>Antragsteller:  </' + 'StrONG></' + 'td>');
+document.writeln('<td >SPD</' + 'td><td>&nbsp;</' + 'td></' + 'tr>');
+
+document.writeln('<tr class="maske21">');
+document.writeln('<td colspan="2"><STRONG>Datum:  </' + 'StrONG></' + 'td>');
+document.writeln('<td>07.06.2014');
+
+ if ('VORL' == 'VORL' )
+    {
+    document.writeln('(letzte Aktualisierung des Sachstandes: 16.07.2014)');
+                    }
+
+document.writeln('</' + 'td><td>&nbsp;</' + 'td></' + 'tr>');
+
+document.writeln('<tr class="maske21">');
+document.writeln('<td colspan="2"><StrONG>Stadtteil:  </' + 'StrONG></' + 'td>');
+document.writeln('<td>Zeilsheim<td>&nbsp;</' + 'td></' + 'tr>');
+
+if ('0' != '0')
+     {
+     document.writeln('<tr class="maske21">');
+     document.writeln('<td colspan="2"><StrONG>');
+     document.writeln('Berechtigungsklasse:</' + 'StrONG></' + 'td>');
+     document.writeln('<td><span class="red">V E R T R A U L I C H</' + 'span> ');
+     document.writeln('</' + 'td><td>&nbsp;</' + 'td></' + 'tr></' + 'table><div class=gelb>');
+     }
+   else
+     document.writeln('</' + 'table><div>');
+}
+else
+{ //version 1 ######################################################
+
+   document.writeln('<table cellpadding="0" cellspacing="0">');
+   document.writeln('<tr><td class="blau">Treffer: 1<BR>Dokument: 1');
+   document.writeln('</' + 'td><td class="blau" colspan="3">');
+   document.writeln('<img src="/basisicons/mdeact.png" alt=""> &nbsp;');
+   document.writeln('');
+   document.writeln('<img src="/basisicons/mdeact.png" alt=""> &nbsp;');
+   document.writeln('');
+   document.writeln('<img src="/basisicons/mdeact.png" alt=""> &nbsp;');
+   document.writeln('<a href="/PARLISLINK/SDW?W%3DDOK_NAME%3D%27OF_1068-6_2014%27%26M%3D1%26R%3DY"><img src="/basisicons/msummary.png" alt="Trefferliste"></' + 'a>');
+   document.writeln(' &nbsp;');
+   //document.writeln(' </' + 'td><td>');
+
+   document.writeln('<a href="javascript:history.back();" ><IMG SRC="/basisicons/diverses/arrowback.gif" alt="Zurück"></' + 'a>'  );
+   document.writeln('<a href="#bottom" name="top"><IMG SRC="/basisicons/diverses/arrowdown2.gif"');
+   document.writeln(' alt="Zum Ende der Seite" title="Zum Ende der Seite"></' + 'a> &nbsp;');
+   document.writeln('<a class="flink" href="http://www.parlis.mobi/index.htm">Startseite</' + 'a>');
+   if ('0' != '0')
+      document.writeln(' | <a class="flink" href="http://www.stvv.frankfurt.de/parlis2/parlis.php?PAKET=OF_1068-6_2014">In PARLIS anzeigen</' + 'a>');
+   else
+      document.writeln(' | <a class="flink" href="http://www.stvv.frankfurt.de/parlis2/parlis.php?DOK=OF_1068-6_2014">In PARLIS anzeigen</' + 'a>');
+
+
+
+///      document.writeln('<a href="http://www.stvv.frankfurt.de/pamobil/dokanz.php?DOKLINK=<span class=red>OF_1068-6_2014</span>"><span style="color:#FFFFFF">nur Text</' + 'span></' + 'a>');
+   document.writeln('</' + 'td></' + 'tr>');
+
+document.writeln('<tr><td colspan="4">');
+-->
+}
+
+</script>
+<noscript><br>
+<a href="#unten" name="top"><img alt="Zum Ende der Seite" src="/basisicons/diverses/arrowdown2.gif" title="Zum Ende der Seite"/></a>
+        <a href="http://www.parlis.mobi/index.htm">Startseite</a>
+<br>
+</br></br></noscript>
+<br><html> <head> <meta content="text/html; charset=utf-8" http-equiv="Content-Type"> <meta content="Microsoft Word 14 (filtered)" name="Generator"> <title>Vorlage OF 1068/6 2014</title> <style> <!--  /* Style Definitions */  p.MsoNormal, li.MsoNormal, div.MsoNormal 	{margin:0cm; 	margin-bottom:.0001pt; 	font-size:small; 	font-family:"Arial","sans-serif";} p.MsoHeader, li.MsoHeader, div.MsoHeader 	{mso-style-link:"Kopfzeile Zchn"; 	margin:0cm; 	margin-bottom:.0001pt; 	font-size:small; 	font-family:"Arial","sans-serif";} p.MsoFooter, li.MsoFooter, div.MsoFooter 	{mso-style-link:"Fußzeile Zchn"; 	margin:0cm; 	margin-bottom:.0001pt; 	font-size:small; 	font-family:"Arial","sans-serif";} p 	{margin-right:0cm; 	margin-left:0cm; 	font-size:small; 	font-family:"Arial","sans-serif";} span.KopfzeileZchn 	{mso-style-name:"Kopfzeile Zchn"; 	mso-style-link:Kopfzeile; 	font-family:"Arial","sans-serif";} span.FuzeileZchn 	{mso-style-name:"Fußzeile Zchn"; 	mso-style-link:Fußzeile; 	font-family:"Arial","sans-serif";} .MsoChpDefault 	{font-size:small;}  /* Page Definitions */  @page WordSection1 	{size:595.3pt 841.9pt; 	margin:70.85pt 70.85pt 2.0cm 70.85pt;} div.WordSection1 	{page:WordSection1;} --> </style> </meta></meta></head> <body lang="DE" link="blue" vlink="purple"> <div class="WordSection1"> <p class="MsoNormal" style="margin-left:35.4pt"> </p> <p style="margin-left:35.4pt"><span style="font-size:large"><a href="#Sachstand">S A C H S T A N D : </a></span><br> <br> <b> <span style="font-size:medium">Antrag vom 07.06.2014, <u>OF 1068/6</u> </span> </b> </br></br></p> <p class="MsoNormal" style="margin-left:35.4pt"><br> Betreff: </br></p> <p class="MsoNormal" style="margin-left:71.4pt">Trauerhalle in Zeilsheim</p> <p class="MsoNormal" style="margin-top:0cm;margin-right:0cm;margin-bottom:12.0pt; margin-left:35.4pt"><br> <br> </br></br></p> <p class="MsoNormal" style="margin-left:35.4pt">Der Ortsbeirat möge beschließen:</p> <p class="MsoNormal" style="margin-left:35.4pt"> </p> <p class="MsoNormal" style="margin-left:35.4pt">Der Magistrat wird gebeten, an der Trauerhalle am Zeilsheimer Friedhof die erforderlichen Renovierungsarbeiten auszuführen.</p> <p class="MsoNormal" style="margin-left:35.4pt">Außerdem soll die Ursache für das Abbröckeln des Verputzes und die <a name="_GoBack"></a>Beschädigung des Wand-und Deckenbereichs geklärt werden.</p> <p class="MsoNormal" style="margin-left:35.4pt"> </p> <p class="MsoNormal" style="margin-left:35.4pt"> </p> <p class="MsoNormal" style="margin-top:0cm;margin-right:0cm;margin-bottom:12.0pt; margin-left:35.4pt"> </p> <p class="MsoNormal" style="margin-top:0cm;margin-right:0cm;margin-bottom:12.0pt; margin-left:35.4pt">Begründung:</p> <p class="MsoNormal" style="margin-left:35.4pt">In der Zeilsheimer Trauerhalle am Friedhof  sind an der Decke über den Sitzreihen für die Trauergäste erhebliche Putzablösungen festzustellen, so dass mit einem Herunterfallen des Putzes gerechnet werden muss. Hinter dem Altar auf der rechten Seite befinden sich ebenfalls Schadstellen in erheblichem Umfang, die offensichtlich durch Wassereintritt verursacht  wurden.</p> <p class="MsoNormal" style="margin-left:35.4pt"> </p> <p class="MsoNormal" style="margin-top:0cm;margin-right:0cm;margin-bottom:12.0pt; margin-left:35.4pt"><br> <a name="Sachstand"></a><br> Antragsteller: <br>            SPD <br> <br> Vertraulichkeit: Nein <br> <br> Beratung im Ortsbeirat: 6 </br></br></br></br></br></br></br></p> <div align="center" class="MsoNormal" style="margin-left:35.4pt;text-align:center"> <hr align="center" size="2" width="100%"> </hr></div> <p class="MsoNormal" style="margin-left:35.4pt"><b>Beratungsergebnisse:</b><br> <br> <a href="/PARLISLINK/DDW?W=DOK_NAME=%27N_6_32_08-07-2014%27">32. Sitzung des OBR 6 am 08.07.2014</a>, TO I, TOP 32</br></br></p> <table border="0" cellpadding="0" cellspacing="0" class="MsoNormalTable" style="width:90.0%;margin-left:35.4pt" width="90%"> <tr> <td style="width:5.56%;padding:.75pt .75pt .75pt .75pt" width="5%"> <p class="MsoNormal">  </p> </td> <td style="width:8.88%;padding:.75pt .75pt .75pt .75pt" width="8%"> <p class="MsoNormal">  </p> </td> <td style="width:24.44%;padding:.75pt .75pt .75pt .75pt" width="24%"> <p class="MsoNormal">  </p> </td> <td style="width:61.12%;padding:.75pt .75pt .75pt .75pt" width="61%"> <p class="MsoNormal">  </p> </td> </tr> <tr> <td style="padding:.75pt .75pt .75pt .75pt"></td> <td colspan="2" style="padding:.75pt .75pt .75pt .75pt" valign="top"> <p class="MsoNormal"><u>Beschluss:</u> </p> </td> <td style="padding:.75pt .75pt .75pt .75pt" valign="top"> <p align="right" class="MsoNormal" style="text-align:right">Anregung an den   Magistrat <a href="/PARLISLINK/DDW?W=DOK_NAME=%27OM_3281_2014%27">OM 3281   2014</a> </p> </td> </tr> <tr> <td style="padding:.75pt .75pt .75pt .75pt"></td> <td colspan="3" style="padding:.75pt .75pt .75pt .75pt"> <p class="MsoNormal">Die Vorlage OF 1068/6 wird in der vorgelegten Fassung   beschlossen.</p> </td> </tr> <tr> <td style="padding:.75pt .75pt .75pt .75pt"></td> <td colspan="3" style="padding:.75pt .75pt .75pt .75pt"> <p class="MsoNormal"><u><br>   Abstimmung:</br></u> </p> </td> </tr> <tr> <td style="padding:.75pt .75pt .75pt .75pt"></td> <td colspan="3" style="padding:.75pt .75pt .75pt .75pt"> <p class="MsoNormal">SPD, GRÜNE, LINKE., FREIE WÄHLER und REP gegen FDP (=   Ablehnung) bei Enthaltung CDU </p> </td> </tr> </table> <p class="MsoNormal" style="margin-top:0cm;margin-right:0cm;margin-bottom:12.0pt; margin-left:35.4pt"> </p> </div> </body> </html>
+<br><br>
+<script type="text/javascript">
+   <!--
+   if (sessionStorage.version=="2")
+   {
+      document.writeln('<a name="unten"></' + 'a></' + 'div></' + 'div>');
+      document.writeln('</' + 'div></' + 'div></' + 'div></' + 'div>');
+
+   }
+   else
+   {
+      document.writeln('<a name=\"bottom\"></' + 'td></' + 'tr>');
+      document.writeln('<tr>');
+
+      document.writeln('<tr><td class="blau">');
+      document.writeln('&nbsp;PARLIS mobil');
+
+      document.writeln('</' + 'td>');
+
+      document.writeln('<td colspan="3" class="rechts">');
+      document.writeln('<a class="flink" href=\"#top\">Zum Anfang der Seite');
+
+
+//      document.writeln('<br><br></' + 'td></' + 'tr>');
+//      foodline();
+      document.writeln('</' + 'td></' + 'tr></' + 'table>');
+}
+-->
+<!-- TEST2 -->
+</script>
+<noscript>
+<br> PARLIS - Frankfurt am Main    
+   <a href="#top"><img alt="Zum Anfang der Seite" src="/basisicons/diverses/arrowup2.gif" title="Zum Anfang der Seite "/></a>
+<a name="unten"></a>
+</br></noscript>
+</br></br></br></body>
+</html> 
