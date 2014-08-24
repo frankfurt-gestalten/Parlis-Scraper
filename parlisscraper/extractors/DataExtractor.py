@@ -1,6 +1,7 @@
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 '''
-Created on 09.10.2011
+Data extraction from propositions.
 
 @author: niko
 '''
