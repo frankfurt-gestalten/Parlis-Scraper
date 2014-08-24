@@ -275,26 +275,20 @@ class DataExtractor(object):
         return nummer
 
     def _extractDate(self):
-        dateSearchResults = re.search("Antrag vom \d{1,2}.\d{1,2}.\d{4}", self._getSourceCode())
+        dateSearchResults = re.search("Antrag vom (?P<day>\d{1,2}).(?P<month>\d{1,2}).(?P<year>\d{4})", self._getSourceCode())
 
-        if(dateSearchResults):
-            newDate = dateSearchResults.group(0)
-            newDate = newDate.replace('Antrag vom ', '')
-
-            splittedDate = newDate.split('.')
-
+        if dateSearchResults:
             return date(
-                        int(splittedDate[2]),
-                        int(splittedDate[1]),
-                        int(splittedDate[0])
+                        int(dateSearchResults.group('year')),
+                        int(dateSearchResults.group('month')),
+                        int(dateSearchResults.group('day'))
                         ).isoformat()
 
     def getDate(self):
-        if(not self._date):
+        if not self._date:
             self._date = self._extractDate()
 
         return self._date
 
     def __repr__(self):
         return '%s for %s.\nContent: %s' % (self.__class__.__name__, self.getLink(), self._getSourceCode())
-#end class DataExtractor
