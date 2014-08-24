@@ -11,7 +11,7 @@ from parlisscraper.extractors.DataExtractor import DataExtractor
 
 class DataExtractor2003(DataExtractor):
 
-    STATEMENT_REGEX = re.compile("Begr\xc3\xbcndung:</p>(.*)Antragstellende Fraktion:")
+    STATEMENT_REGEX = re.compile(u"Begr(\xc3\xbc|ü)ndung:</p>(?P<statement>.*)Antragstellende Fraktion:")
 
     def _getSubjectPattern(self):
         return "Betreff:(.*)Antragstellende Fraktion:"

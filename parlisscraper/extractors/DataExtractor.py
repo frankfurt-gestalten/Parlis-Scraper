@@ -16,8 +16,8 @@ class DataExtractor(object):
     """
     This class is used to get data from a proposition page in PARLIS.
     """
-    PARTY_PATTERN = re.compile("(FREIE WÄHLER|LINKE\.|[\wÜÖÄ]+)\s+", flags=re.I | re.L)
-    STATEMENT_REGEX = re.compile("Begr\xc3\xbcndung:</p>(.*)Antragsteller:")
+    PARTY_PATTERN = re.compile(u"(FREIE WÄHLER|LINKE\.|[\wÜÖÄ]+)\s+", flags=re.I | re.L)
+    STATEMENT_REGEX = re.compile(u"Begr(\xc3\xbc|ü)ndung:</p>(?P<statement>.*)Antragsteller:")
 
     def __init__(self, link, pageContent):
         self._link = link
@@ -175,9 +175,6 @@ class DataExtractor(object):
     def _getPartyPattern(self):
         return "Antragsteller:(.*)Vertraulichkeit:"
 
-    def _getAntragstellerPattern(self):
-        return "Antragsteller:"
-
     def _extractParty(self):
         partei = ""
 
@@ -196,11 +193,17 @@ class DataExtractor(object):
 
         return self._party
 
+    def getStatement(self):
+        if not self._statement:
+            self._statement = self._extractStatement()
+
+        return self._statement
+
     def _extractStatement(self):
         matchBeg = self.STATEMENT_REGEX.search(self._getSourceCode())
 
         if matchBeg is not None:
-            cleanBeg = self._quoteChange(matchBeg.group(0))
+            cleanBeg = self._quoteChange(matchBeg.group('statement'))
             begruendung = re.sub(self._getAntragstellerPattern(), "", cleanBeg)
             return self._cleanHTML(begruendung)
 
@@ -208,11 +211,8 @@ class DataExtractor(object):
             LOGGER.debug("Begruendung leer")
             return ""
 
-    def getStatement(self):
-        if(not self._statement):
-            self._statement = self._extractStatement()
-
-        return self._statement
+    def _getAntragstellerPattern(self):
+        return u"Antragsteller:"
 
     def __extractTableInformation(self, table):
         tableInformation = re.sub("\[", "", table)

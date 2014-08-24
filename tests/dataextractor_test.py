@@ -32,8 +32,11 @@ class DataExtractorTestCase(unittest.TestCase):
                           self.extractor.getParty())
 
     def testGetStatement(self):
-        self.assertEquals('',
-                          self.extractor.getStatement())
+        expectedText = "In der Zeilsheimer Trauerhalle am Friedhof  sind an der Decke über den Sitzreihen für die Trauergäste erhebliche Putzablösungen festzustellen, so dass mit einem Herunterfallen des Putzes gerechnet werden muss. Hinter dem Altar auf der rechten Seite befinden sich ebenfalls Schadstellen in erheblichem Umfang, die offensichtlich durch Wassereintritt verursacht  wurden."
+        self.assertTrue(expectedText in self.extractor.getStatement())
+
+        self.assertFalse(self.extractor.getStatement().startswith("Begr"),
+            "Statement starts with 'Begründung' but should not: {0}".format(self.extractor.getStatement()))
 
     def testGetUpdateDate(self):
         self.assertEquals('2014-07-16',
