@@ -55,6 +55,16 @@ class ParlisScraper(object):
         self.inputFile = inputFile
         self.sleepingTimeInSeconds = 3
 
+    def _getExtractor(self, link):
+        if self._needs1990sWorkaround():
+            return DataExtractor1990(link, self._getPage(link))
+        elif self._needs2003Workaround():
+            return DataExtractor2003(link, self._getPage(link))
+        elif self._needs2006Workaround():
+            return DataExtractor2006(link, self._getPage(link))
+        else:
+            return DataExtractor(link, self._getPage(link))
+
     def _getPage(self, link):
         """
         Receives the content of the supplied url.
@@ -65,25 +75,11 @@ class ParlisScraper(object):
                  None if no page could be retrieved.
         @type: BeautifulSoup
         """
-        soup = None
-
         try:
             page = urlopen(link)
-            soup = BeautifulSoup(page)
+            return BeautifulSoup(page, 'lxml')
         except Exception as err:
             LOGGER.error("Error receiving '{link}': {error}".format(link=link, error=err))
-
-        return soup
-
-    def _getExtractor(self, link):
-        if(self._needs1990sWorkaround()):
-            return DataExtractor1990(link, self._getPage(link))
-        elif(self._needs2003Workaround()):
-            return DataExtractor2003(link, self._getPage(link))
-        elif(self._needs2006Workaround()):
-            return DataExtractor2006(link, self._getPage(link))
-        else:
-            return DataExtractor(link, self._getPage(link))
 
     def _getPropositionFromExtractor(self, link):
         extractor = self._getExtractor(link)
