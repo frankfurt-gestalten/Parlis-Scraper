@@ -8,17 +8,14 @@ from parlisscraper.extractors.DataExtractor import DataExtractor
 
 
 class DataExtractor2003(DataExtractor):
-    '''
-    classdocs
-    '''
+
+    STATEMENT_REGEX = re.compile("Begr\xc3\xbcndung:</p>(.*)Antragstellende Fraktion:")
+
     def _getSubjectPattern(self):
         return "Betreff:(.*)Antragstellende Fraktion:"
 
     def _getPartyPattern(self):
         return "Antragstellende Fraktion:(.*)Vertraulichkeit:"
-
-    def _getStatementPattern(self):
-        return "Begr\xc3\xbcndung:</p>(.*)Antragstellende Fraktion:"
 
     def _getSubjectNoooooow(self, matchBetreff):
         bet = self._quoteChange(matchBetreff.group(0))

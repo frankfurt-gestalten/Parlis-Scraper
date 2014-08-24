@@ -16,6 +16,7 @@ class DataExtractor(object):
     This class is used to get data from a proposition page in PARLIS.
     """
     PARTY_PATTERN = re.compile("(FREIE WÄHLER|LINKE\.|[\wÜÖÄ]+)\s+", flags=re.I | re.L)
+    STATEMENT_REGEX = re.compile("Begr\xc3\xbcndung:</p>(.*)Antragsteller:")
 
     def __init__(self, link, pageContent):
         self._link = link
@@ -194,22 +195,17 @@ class DataExtractor(object):
 
         return self._party
 
-    def _getStatementPattern(self):
-        return "Begr\xc3\xbcndung:</p>(.*)Antragsteller:"
-
     def _extractStatement(self):
-        begruendung = ""
-
-        matchBeg = re.search(self._getStatementPattern(), self._getSourceCode())
+        matchBeg = self.STATEMENT_REGEX.search(self._getSourceCode())
 
         if matchBeg is not None:
             cleanBeg = self._quoteChange(matchBeg.group(0))
             begruendung = re.sub(self._getAntragstellerPattern(), "", cleanBeg)
-            begruendung = self._cleanHTML(begruendung)
+            return self._cleanHTML(begruendung)
+
         else:
             LOGGER.debug("Begruendung leer")
-
-        return begruendung
+            return ""
 
     def getStatement(self):
         if(not self._statement):
