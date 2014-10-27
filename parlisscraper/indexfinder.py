@@ -108,13 +108,7 @@ class ParlisIndexFinder(object):
             match = self.linkToDocumentPattern.search(link)
             if match and match.group('documentID'):
                 vorlagennummer = match.group('documentID')
-
-                try:
-                    IDlist.append(vorlagennummer)
-                except AttributeError as aerr:
-                    print "Caught AttributeError when adding ID to list."
-                    print "\t Error: %s" % aerr
-                    print "\t Link: %s" % link
+                IDlist.append(vorlagennummer)
 
         return IDlist
 

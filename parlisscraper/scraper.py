@@ -118,7 +118,7 @@ class ParlisScraper(object):
 
     def __writeInformationToFile(self, content):
         """
-        Writes information to a file.
+        Writes information to a file
         Data will be attended to the file.
 
         @param outputFile: The file to write to.
