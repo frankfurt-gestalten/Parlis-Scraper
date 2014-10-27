@@ -127,9 +127,9 @@ class ParlisScraper(object):
         @type content: str
         """
         try:
-            csvWriter = csv.writer(open(self.outputFile, 'ab'),
-                                   delimiter=',', quotechar='"')
-            csvWriter.writerow(content)
+            with open(self.outputFile, 'ab') as csvFile:
+                csvWriter = csv.writer(csvFile, delimiter=',', quotechar='"')
+                csvWriter.writerow(content)
         except IOError as ioerr:
             #Most obvious error will occur when writing the file...
             print "Error writing file '%s':\n%s" % (self.outputFile, ioerr)
@@ -149,15 +149,10 @@ class ParlisScraper(object):
         """
         collectedPropositions = []
 
-        try:
-            inputFileHandle = open(inputFile, 'r')
-
+        with open(inputFile, 'r') as inputFileHandle:
             for line in inputFileHandle:
-                #Create url
-                link = ("http://stvv.frankfurt.de/PARLISLINK/DDW?W=DOK_NAME="
-                        "'%s'" % (re.sub("\n", "", line), ))
+                link = "http://stvv.frankfurt.de/PARLISLINK/DDW?W=DOK_NAME='{0}'".format(re.sub("\n", "", line))
 
-                #Some output for the user
                 print "Nummer %i (%s)" % (len(collectedPropositions) + 1, link)
 
                 try:
@@ -169,8 +164,6 @@ class ParlisScraper(object):
 
                 #Wait a few seconds so the server can handle the load...
                 time.sleep(self.sleepingTimeInSeconds)
-        except IOError as ioe:
-            print "Error reading from file '%s':\n%s" % (inputFile, ioe)
 
         return sorted(collectedPropositions, key=lambda prop: prop.updateDate,
                       reverse=True)
