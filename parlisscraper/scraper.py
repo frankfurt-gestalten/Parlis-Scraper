@@ -148,33 +148,30 @@ class ParlisScraper(object):
         @param inputFile: input file with information to create the links.
         @type inputFile: str
         """
-        collectedPropositions = []
-
-        try:
-            inputFileHandle = open(inputFile, 'r')
-
+        proposition_links = set()
+        with open(inputFile, 'r') as inputFileHandle:
             for line in inputFileHandle:
                 #Create url
                 link = "http://stvv.frankfurt.de/PARLISLINK/DDW?W=DOK_NAME='{id}'".format(
                     id=re.sub("\n", "", line)
                 )
+                proposition_links.add(link)
 
-                LOGGER.info("Nummer {0} ({link})".format(len(collectedPropositions) + 1, link=link))
+        collectedPropositions = []
+        for link in sorted(proposition_links):
+            LOGGER.info("Nummer {0} ({link})".format(len(collectedPropositions) + 1, link=link))
 
-                try:
-                    proposition = self._getPropositionFromExtractor(link)
-                    collectedPropositions.append(proposition)
-                except Exception as err:
-                    LOGGER.error('Failed to get proposition from {link}: {error}'.format(link=link, error=err))
-                    traceback.print_exc()
+            try:
+                proposition = self._getPropositionFromExtractor(link)
+                collectedPropositions.append(proposition)
+            except Exception as err:
+                LOGGER.error('Failed to get proposition from {link}: {error}'.format(link=link, error=err))
+                traceback.print_exc()
 
-                #Wait a few seconds so the server can handle the load...
-                time.sleep(self.sleepingTimeInSeconds)
-        except IOError as ioe:
-            LOGGER.error("Error reading from file '{filename}': {error}".format(filename=inputFile, error=ioe))
+            #Wait a few seconds so the server can handle the load...
+            time.sleep(self.sleepingTimeInSeconds)
 
-        return sorted(collectedPropositions, key=lambda prop: prop.updateDate,
-                      reverse=True)
+        return collectedPropositions
 
     def _needs2006Workaround(self):
         """
