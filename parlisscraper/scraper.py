@@ -129,9 +129,10 @@ class ParlisScraper(object):
         @type content: str
         """
         try:
-            csvWriter = csv.writer(open(self.outputFile, 'ab'),
-                                   delimiter=',', quotechar='"')
-            csvWriter.writerow(content)
+            with open(self.outputFile, 'a') as csv_output_file:
+                csvWriter = csv.writer(csv_output_file,
+                                       delimiter=',', quotechar='"')
+                csvWriter.writerow(content)
         except IOError as ioerr:
             LOGGER.error("Error writing file '{filename}': {error}".format(filename=self.outputFile, error=ioerr))
         except Exception as err:
