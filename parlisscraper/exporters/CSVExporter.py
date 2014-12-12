@@ -15,20 +15,23 @@ class CSVExporter(BaseExporter):
         """
         This will append the proposition to the export file.
         """
-        csvWriter = writer(
-            open(self.outputFile, 'ab'),
-            delimiter=';',
-            quotechar='"'
-        )
-        header = ["update", "link", "date", "partei", "nummer",
-                  "title", "begruendung", "betreff", "ergebnisse", 'ob_nummer']
-        csvWriter.writerow(header)
-        i = 1
-        for singleProposition in propositions:
-            if(singleProposition is not None and i <= 500):
-                csvWriter.writerow(
-                    self._createSequenceFromProposition(singleProposition))
-                i += 1
+        with open(self.outputFile, 'a') as outputFile:
+            csvWriter = writer(
+                outputFile,
+                delimiter=';',
+                quotechar='"'
+            )
+            header = ["update", "link", "date", "partei", "nummer", "title",
+                      "begruendung", "betreff", "ergebnisse", 'ob_nummer']
+            csvWriter.writerow(header)
+
+            i = 1
+            for singleProposition in propositions:
+                print(i)
+                if(singleProposition is not None and i <= 500):
+                    csvWriter.writerow(
+                        self._createSequenceFromProposition(singleProposition))
+                    i += 1
 
     def _createSequenceFromProposition(self, proposition):
         return [
