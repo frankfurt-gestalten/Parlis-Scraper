@@ -34,3 +34,15 @@ class Proposition(object):
         self.statement = None
         self.subject = None
         self.result = None
+
+    def __repr__(self):
+        return ("Proposition({title}, {date}, {link}, {party}, "
+                "{proposition_number}, {obnumber})".format(
+                    title=repr(self.title),
+                    date=self.date,
+                    link=self.link,
+                    party=self.party,
+                    proposition_number=self.proposition_nbr,
+                    obnumber=self.obnumber
+            )
+        )
