@@ -27,8 +27,8 @@ class CSVExporter(BaseExporter):
 
             i = 1
             for singleProposition in propositions:
-                print(i)
-                if(singleProposition is not None and i <= 500):
+                if singleProposition and i <= 500:
+                    print(i)
                     csvWriter.writerow(
                         self._createSequenceFromProposition(singleProposition))
                     i += 1
