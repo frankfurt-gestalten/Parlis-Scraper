@@ -103,7 +103,7 @@ class ParlisScraper(object):
         except Exception as err:
             LOGGER.error('Could not extract all the needed data (extractor: {0}): {error}'.format(extractor, error=err))
             traceback.print_exc()
-            raise
+            raise err
 
         return proposition
 
