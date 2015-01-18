@@ -43,7 +43,6 @@ class ParlisIndexFinder(object):
         self.year = year
         self.outputFile = outputFile
 
-        self.retrievedTotalNumberOfDocuments = False
         self.collectedItems = set()
 
         self.linkToDocumentPattern = re.compile(r"/PARLISLINK/DDW\?W%3DVORLAGEART\+INC\+%27OF%27\+AND\+JAHR\+%3D\+(?P<year>\d{4})\+AND\+DOKUMENTTYP\+%3D\+%27VORL%27\+ORDER\+BY\+SORTFELD/Descend%26M%3D\d+%26K%3D(?P<documentID>OF_\d{1,4}-\d{1,2}_\d{4})%26R%3DY%22%26U%3D1", re.IGNORECASE)
@@ -62,6 +61,7 @@ class ParlisIndexFinder(object):
         """
         start = 0
         end = 20
+        retrievedTotalNumberOfDocuments = False
 
         while start < end:
             #Build the link to the page that contains the links
@@ -78,9 +78,9 @@ class ParlisIndexFinder(object):
                 page = urlopen(linkcon)
                 soup = BeautifulSoup(page)
 
-                if not self.retrievedTotalNumberOfDocuments:
+                if not retrievedTotalNumberOfDocuments:
                     end = self.__getTotalNumberOfDocuments(soup)
-                    self.retrievedTotalNumberOfDocuments = True
+                    retrievedTotalNumberOfDocuments = True
 
                 for link in soup.findAll('a'):
                     yield link
