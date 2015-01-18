@@ -92,12 +92,11 @@ class ParlisIndexFinder(object):
             #sleep a little bit. We don't want to crash the server (poor hardware ;))
             time.sleep(self.searchDelay)
 
-    def _getDocumentIDs(self, listWithLinks):
+    def _getDocumentIDs(self):
         """
-        Yields the document IDs on links that match the document pattern
-        from items in ``listWithLinks``.
+        Yields the document IDs for the current year.
         """
-        for singleLink in listWithLinks:
+        for singleLink in self._getLinksFromOverview():
             link = str(singleLink)
 
             match = self.linkToDocumentPattern.search(link)
@@ -132,7 +131,7 @@ class ParlisIndexFinder(object):
         self.collectedItems = set()
 
         with open(self.outputFile, "w") as filehandle:
-            for documentID in self._getDocumentIDs(self._getLinksFromOverview()):
+            for documentID in self._getDocumentIDs():
                 if documentID not in self.collectedItems:
                     self.collectedItems.add(documentID)
                     filehandle.write("{0}\n".format(documentID))
