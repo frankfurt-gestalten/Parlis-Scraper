@@ -51,7 +51,7 @@ class ParlisIndexFinder(object):
         self.linkToDocumentPattern = re.compile(r"/PARLISLINK/DDW\?W%3DVORLAGEART\+INC\+%27OF%27\+AND\+JAHR\+%3D\+(?P<year>\d{4})\+AND\+DOKUMENTTYP\+%3D\+%27VORL%27\+ORDER\+BY\+SORTFELD/Descend%26M%3D\d+%26K%3D(?P<documentID>OF_\d{1,4}-\d{1,2}_\d{4})%26R%3DY%22%26U%3D1", re.IGNORECASE)
         self.itemCountPattern = re.compile("Dokumente:.*von\W+(?P<documentCount>\d+)")
 
-    def __getLinkList(self):
+    def _getLinksFromOverview(self):
         """
         Yields the links to documents scraped from the overview pages.
         """
@@ -92,7 +92,7 @@ class ParlisIndexFinder(object):
             #sleep a little bit. We don't want to crash the server (poor hardware ;))
             time.sleep(self.searchDelay)
 
-    def __graspID(self, listWithLinks):
+    def _getDocumentIDs(self, listWithLinks):
         """
         Yields the document IDs on links that match the document pattern
         from items in ``listWithLinks``.
@@ -132,7 +132,7 @@ class ParlisIndexFinder(object):
         self.collectedItems = set()
 
         with open(self.outputFile, "w") as filehandle:
-            for documentID in self.__graspID(self.__getLinkList()):
+            for documentID in self._getDocumentIDs(self._getLinksFromOverview()):
                 if documentID not in self.collectedItems:
                     self.collectedItems.add(documentID)
                     filehandle.write("{0}\n".format(documentID))
