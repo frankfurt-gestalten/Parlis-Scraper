@@ -102,23 +102,16 @@ class ParlisIndexFinder(object):
         @return: list with links to documents.
         @rtype: list
         """
-        IDlist = []
-
         for singleLink in listWithLinks:
             link = str(singleLink)
 
             match = self.linkToDocumentPattern.search(link)
-            if match and match.group('documentID'):
+            if match:
                 vorlagennummer = match.group('documentID')
 
-                try:
-                    IDlist.append(vorlagennummer)
-                except AttributeError as aerr:
-                    LOGGER.error(
-                        "Failed to add ID to list - link: {link} - error: {error}".format(link=link, error=aerr)
-                    )
+                if vorlagennummer:
+                    yield vorlagennummer
 
-        return IDlist
 
     def __getTotalNumberOfDocuments(self, soupInstance):
         """
@@ -146,10 +139,9 @@ class ParlisIndexFinder(object):
 
         with open(self.outputFile, "w") as filehandle:
             while self.start < self.end:
-                link = self.__getLinkList()
-                IDliste = self.__graspID(link)
+                links = self.__getLinkList()
 
-                for documentID in IDliste:
+                for documentID in self.__graspID(links):
                     if documentID not in self.collectedItems:
                         self.collectedItems.add(documentID)
                         filehandle.write("{0}\n".format(documentID))
