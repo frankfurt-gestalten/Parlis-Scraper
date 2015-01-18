@@ -44,7 +44,6 @@ class ParlisIndexFinder(object):
 
         self.year = year
         self.outputFile = outputFile
-        self._file_created = False
 
         self.retrievedTotalNumberOfDocuments = False
         self.collectedItems = []
@@ -121,33 +120,6 @@ class ParlisIndexFinder(object):
 
         return IDlist
 
-    def _writeDocumentIDToFile(self, documentID):
-        """
-        Write the supplied list of IDs into a text file.
-        The file-mode is 'append' so existing results won't be deleted.
-
-        @param documentID: a single document ID.
-        @type documentID: list
-        """
-        if self._file_created:
-            write_mode = 'a'
-        else:
-            write_mode = 'w'
-            self._file_created = True
-
-        try:
-            with open(self.outputFile, write_mode) as filehandle:
-                filehandle.write("{0}\n".format(documentID))
-        except IOError as ioe:
-            #Most obvious error will occur when writing the file...
-            LOGGER.error("Error writing file '{filename}': {error}".format(
-                filename=self.outputFile,
-                error=ioe
-            ))
-        except Exception as err:
-            #General error handling for everything else
-            LOGGER.error(err)
-
     def __getTotalNumberOfDocuments(self, soupInstance):
         """
         Reads the total number of documents from the contents of the soup.
@@ -172,14 +144,15 @@ class ParlisIndexFinder(object):
         LOGGER.info("Starting to search for indexes")
         self.collectedItems = set()
 
-        while self.start < self.end:
-            link = self.__getLinkList()
-            IDliste = self.__graspID(link)
+        with open(self.outputFile, "w") as filehandle:
+            while self.start < self.end:
+                link = self.__getLinkList()
+                IDliste = self.__graspID(link)
 
-            for documentID in IDliste:
-                if documentID not in self.collectedItems:
-                    self.collectedItems.add(documentID)
-                    self._writeDocumentIDToFile(documentID)
+                for documentID in IDliste:
+                    if documentID not in self.collectedItems:
+                        self.collectedItems.add(documentID)
+                        filehandle.write("{0}\n".format(documentID))
 
             LOGGER.info("Year {year}: {0} items left to process".format(self.end - self.start, year=self.year))
             self.start += 20
