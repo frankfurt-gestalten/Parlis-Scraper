@@ -51,6 +51,35 @@ class ParlisIndexFinder(object):
         self.linkToDocumentPattern = re.compile(r"/PARLISLINK/DDW\?W%3DVORLAGEART\+INC\+%27OF%27\+AND\+JAHR\+%3D\+(?P<year>\d{4})\+AND\+DOKUMENTTYP\+%3D\+%27VORL%27\+ORDER\+BY\+SORTFELD/Descend%26M%3D\d+%26K%3D(?P<documentID>OF_\d{1,4}-\d{1,2}_\d{4})%26R%3DY%22%26U%3D1", re.IGNORECASE)
         self.itemCountPattern = re.compile("Dokumente:.*von\W+(?P<documentCount>\d+)")
 
+    def startSearching(self):
+        """
+        Starts the search for indexes and writes the results into a file.
+        """
+        LOGGER.info("Starting to search for indexes")
+        self.collectedItems = set()
+
+        with open(self.outputFile, "w") as filehandle:
+            for documentID in self._getDocumentIDs():
+                if documentID not in self.collectedItems:
+                    self.collectedItems.add(documentID)
+                    filehandle.write("{0}\n".format(documentID))
+
+        LOGGER.info("Finished scraping the indexes.")
+
+    def _getDocumentIDs(self):
+        """
+        Yields the document IDs for the current year.
+        """
+        for singleLink in self._getLinksFromOverview():
+            link = str(singleLink)
+
+            match = self.linkToDocumentPattern.search(link)
+            if match:
+                vorlagennummer = match.group('documentID')
+
+                if vorlagennummer:
+                    yield vorlagennummer
+
     def _getLinksFromOverview(self):
         """
         Yields the links to documents scraped from the overview pages.
@@ -92,20 +121,6 @@ class ParlisIndexFinder(object):
             #sleep a little bit. We don't want to crash the server (poor hardware ;))
             time.sleep(self.searchDelay)
 
-    def _getDocumentIDs(self):
-        """
-        Yields the document IDs for the current year.
-        """
-        for singleLink in self._getLinksFromOverview():
-            link = str(singleLink)
-
-            match = self.linkToDocumentPattern.search(link)
-            if match:
-                vorlagennummer = match.group('documentID')
-
-                if vorlagennummer:
-                    yield vorlagennummer
-
     def __getTotalNumberOfDocuments(self, soupInstance):
         """
         Reads the total number of documents from the contents of the soup.
@@ -122,21 +137,6 @@ class ParlisIndexFinder(object):
         LOGGER.info("Found total number of {0} documents".format(itemCount))
 
         return itemCount
-
-    def startSearching(self):
-        """
-        Starts the search for indexes and writes the results into a file.
-        """
-        LOGGER.info("Starting to search for indexes")
-        self.collectedItems = set()
-
-        with open(self.outputFile, "w") as filehandle:
-            for documentID in self._getDocumentIDs():
-                if documentID not in self.collectedItems:
-                    self.collectedItems.add(documentID)
-                    filehandle.write("{0}\n".format(documentID))
-
-        LOGGER.info("Finished scraping the indexes.")
 
     def __repr__(self):
         return "{classname}({year}, outputFile={file})".format(
