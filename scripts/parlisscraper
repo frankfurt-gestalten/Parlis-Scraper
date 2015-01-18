@@ -40,7 +40,7 @@ def startWorkflow(startYear=None, endYear=None, onlySearchIndexes=False,
                 csvExporter = CSVExporter(scrape.outputFile)
                 csvExporter.createExport(scrapingResults)
             except Exception as err:
-                LOGGER.error("Failed to write CSV. Writing XML. Error: {0}".format(err, ))
+                LOGGER.error("Failed to write CSV. Writing XML. Error: {0}".format(err))
                 xmlExporter = XMLExporter('%s.xml' % scrape.outputFile)
                 xmlExporter.createExport(scrapingResults)
 
