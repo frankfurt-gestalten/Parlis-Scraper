@@ -59,8 +59,19 @@ if __name__ == '__main__':
     optionParser.add_option('-d', '--onlyScraping', dest='onlyScraping',
                             default=False, action="store_true",
                             help='Only scrape webpages.')
+    optionParser.add_option('--debug', action="store_true", default=False,
+                            help="Enable debug output.")
+    optionParser.add_option('--verbose', action="store_true", default=False,
+                            help="Verbose output.")
 
     (options, unparseableArguments) = optionParser.parse_args()
+
+    if options.debug:
+        logging.basicConfig(level=logging.DEBUG)
+    elif options.verbose:
+        logging.basicConfig(level=logging.INFO)
+    else:
+        logging.basicConfig(level=logging.ERROR)
 
     startWorkflow(options.startYear, options.endYear,
                   options.onlyIndexes, options.onlyScraping)
