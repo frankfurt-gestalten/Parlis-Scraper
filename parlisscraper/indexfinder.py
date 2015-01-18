@@ -62,7 +62,7 @@ class ParlisIndexFinder(object):
                 if documentID not in self.collectedItems:
                     self.collectedItems.add(documentID)
                     filehandle.write("{0}\n".format(documentID))
-                    LOGGER.info('.')
+                    LOGGER.info('Found ID: {0}'.format(documentID))
 
         LOGGER.info("Finished scraping the indexes.")
 
