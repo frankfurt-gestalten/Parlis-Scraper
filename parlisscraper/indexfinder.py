@@ -38,8 +38,6 @@ class ParlisIndexFinder(object):
             outputFile = "%s-IDlist.txt" % year
 
         # Configuration
-        self.start = 1
-        self.end = 20
         self.searchDelay = 5
 
         self.year = year
@@ -62,36 +60,41 @@ class ParlisIndexFinder(object):
         @return: A list with links.
         @rtype: list
         """
-        linkListe = []
+        start = 0
+        end = 20
 
-        #Build the link to the page that contains the links
-        linkcon = ("http://www.stvv.frankfurt.de/PARLISLINK/SDW?"
-            "W%3DVORLAGEART+INC+%27OF%27+AND+JAHR+%3D+{year}+AND+"
-            "DOKUMENTTYP+%3D+%27VORL%27+ORDER+BY+SORTFELD/Descend"
-            "%26M%3D{startingpoint}%26R%3DY%22".format(
-                startingpoint=self.start,
-                year=self.year
+        while start < end:
+            #Build the link to the page that contains the links
+            linkcon = ("http://www.stvv.frankfurt.de/PARLISLINK/SDW?"
+                "W%3DVORLAGEART+INC+%27OF%27+AND+JAHR+%3D+{year}+AND+"
+                "DOKUMENTTYP+%3D+%27VORL%27+ORDER+BY+SORTFELD/Descend"
+                "%26M%3D{startingpoint}%26R%3DY%22".format(
+                    startingpoint=start,
+                    year=self.year
+                )
             )
-        )
 
-        try:
-            page = urlopen(linkcon)
-            soup = BeautifulSoup(page)
+            try:
+                page = urlopen(linkcon)
+                soup = BeautifulSoup(page)
 
-            linkListe = soup.findAll('a')
+                if not self.retrievedTotalNumberOfDocuments:
+                    end = self.__getTotalNumberOfDocuments(soup)
+                    self.retrievedTotalNumberOfDocuments = True
 
-            if self.retrievedTotalNumberOfDocuments is False:
-                self.end = self.__getTotalNumberOfDocuments(soup)
-                self.retrievedTotalNumberOfDocuments = True
-        except AttributeError as aerr:
-            #This is mostly a failure of getting the total number of items.
-            LOGGER.error("Aborting the search for indexes: {0}".format(aerr))
-            self.end = 0
-        except Exception as err:
-            #Problems? Give out some information
-            LOGGER.error(err)
+                for link in soup.findAll('a'):
+                    yield link
 
-        return linkListe
+            except AttributeError as aerr:
+                #This is mostly a failure of getting the total number of items.
+                LOGGER.error("Aborting the search for indexes: {0}".format(aerr))
+                break
+
+            LOGGER.info("Year {year}: {0} items left to process".format(end - start, year=self.year))
+            start += 20
+
+            #sleep a little bit. We don't want to crash the server (poor hardware ;))
+            time.sleep(self.searchDelay)
 
     def __graspID(self, listWithLinks):
         """
@@ -111,7 +114,6 @@ class ParlisIndexFinder(object):
 
                 if vorlagennummer:
                     yield vorlagennummer
-
 
     def __getTotalNumberOfDocuments(self, soupInstance):
         """
@@ -138,19 +140,10 @@ class ParlisIndexFinder(object):
         self.collectedItems = set()
 
         with open(self.outputFile, "w") as filehandle:
-            while self.start < self.end:
-                links = self.__getLinkList()
-
-                for documentID in self.__graspID(links):
-                    if documentID not in self.collectedItems:
-                        self.collectedItems.add(documentID)
-                        filehandle.write("{0}\n".format(documentID))
-
-            LOGGER.info("Year {year}: {0} items left to process".format(self.end - self.start, year=self.year))
-            self.start += 20
-
-            #sleep a little bit. We don't want to crash the server (poor hardware ;))
-            time.sleep(self.searchDelay)
+            for documentID in self.__graspID(self.__getLinkList()):
+                if documentID not in self.collectedItems:
+                    self.collectedItems.add(documentID)
+                    filehandle.write("{0}\n".format(documentID))
 
         LOGGER.info("Finished scraping the indexes.")
 
