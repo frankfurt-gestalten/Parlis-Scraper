@@ -41,7 +41,7 @@ class ParlisIndexFinder(object):
             outputFile = "%s-IDlist.txt" % year
 
         # Configuration
-        self.searchDelay = 5
+        self.searchDelay = 2
 
         self.year = year
         self.outputFile = outputFile
