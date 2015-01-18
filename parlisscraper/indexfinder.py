@@ -21,8 +21,11 @@ LOGGER = logging.getLogger('parlisscraper')
 
 class ParlisIndexFinder(object):
     """
-    This class can be used to retrieve a list of IDs that can be used for scraping.
-    It will create a file called 'YYYY-IDlist.txt' where YYYY is the year.
+    This class can be used to retrieve a list of documents IDs that can
+    be used for scraping.
+
+    It will create a file called 'YYYY-IDlist.txt' where YYYY is the
+    year if no output file will be specified.
     """
 
     def __init__(self, year, outputFile=None):
@@ -50,14 +53,7 @@ class ParlisIndexFinder(object):
 
     def __getLinkList(self):
         """
-        Get a list with links.
-
-        @param year: The year for which the links should be received. Should be in format YYYY.
-        @type year: int
-        @param start: How many links to skip
-        @type start: int
-        @return: A list with links.
-        @rtype: list
+        Yields the links to documents scraped from the overview pages.
         """
         start = 0
         end = 20
@@ -98,12 +94,8 @@ class ParlisIndexFinder(object):
 
     def __graspID(self, listWithLinks):
         """
-        Search for IDs.
-
-        @param listWithLinks: A list with links. Format tbd.
-        @type listWithLinks: list
-        @return: list with links to documents.
-        @rtype: list
+        Yields the document IDs on links that match the document pattern
+        from items in ``listWithLinks``.
         """
         for singleLink in listWithLinks:
             link = str(singleLink)
@@ -148,11 +140,6 @@ class ParlisIndexFinder(object):
         LOGGER.info("Finished scraping the indexes.")
 
     def __repr__(self):
-        """
-        String representation of the object.
-
-        Built-in python function.
-        """
         return "{classname}({year}, outputFile={file})".format(
             classname=self.__class__.__name__,
             year=self.year,
