@@ -55,14 +55,14 @@ class ParlisIndexFinder(object):
         """
         Starts the search for indexes and writes the results into a file.
         """
-        LOGGER.info("Starting to search for indexes")
-        self.collectedItems = set()
+        LOGGER.info("Starting to search for indexes for {0}".format(self.year))
 
         with open(self.outputFile, "w") as filehandle:
             for documentID in self._getDocumentIDs():
                 if documentID not in self.collectedItems:
                     self.collectedItems.add(documentID)
                     filehandle.write("{0}\n".format(documentID))
+                    LOGGER.info('.')
 
         LOGGER.info("Finished scraping the indexes.")
 
