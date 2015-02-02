@@ -1,6 +1,11 @@
-from csv import writer
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
+import logging
+from csv import writer
 from parlisscraper.exporters import BaseExporter
+
+LOGGER = logging.getLogger('parlisscraper')
 
 
 class CSVExporter(BaseExporter):
@@ -8,8 +13,9 @@ class CSVExporter(BaseExporter):
     A class to export the propositions into a .csv-file.
     '''
 
-    def __init__(self, filename):
+    def __init__(self, filename, limit=0):
         self.outputFile = filename
+        self.limit = limit
 
     def createExport(self, propositions):
         """
@@ -25,13 +31,12 @@ class CSVExporter(BaseExporter):
                       "begruendung", "betreff", "ergebnisse", 'ob_nummer']
             csvWriter.writerow(header)
 
-            i = 1
-            for singleProposition in propositions:
-                if singleProposition and i <= 500:
-                    print(i)
-                    csvWriter.writerow(
-                        self._createSequenceFromProposition(singleProposition))
-                    i += 1
+            for (index, proposition) in enumerate(propositions, start=1):
+                if self.limit and index > self.limit:
+                    break
+
+                LOGGER.info("CSV: wrote item {0}".format(index))
+                csvWriter.writerow(self._createSequenceFromProposition(proposition))
 
     def _createSequenceFromProposition(self, proposition):
         return [
@@ -46,4 +51,3 @@ class CSVExporter(BaseExporter):
             proposition.result,
             proposition.obnumber
         ]
-
