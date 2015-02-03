@@ -16,7 +16,7 @@ LOGGER = logging.getLogger('parlisscraper')
 
 
 def startWorkflow(startYear=None, endYear=None, onlySearchIndexes=False,
-                  onlyScrapeFiles=False):
+                  onlyScrapeFiles=False, exportLimit=None):
     if startYear is None:
         startYear = 1992
 
@@ -37,7 +37,7 @@ def startWorkflow(startYear=None, endYear=None, onlySearchIndexes=False,
 
             scrapingResults = scrape.startScraping()
             try:
-                csvExporter = CSVExporter(scrape.outputFile)
+                csvExporter = CSVExporter(scrape.outputFile, exportLimit)
                 csvExporter.createExport(scrapingResults)
             except Exception as err:
                 LOGGER.error("Failed to write CSV. Writing XML. Error: {0}".format(err))
@@ -63,6 +63,9 @@ if __name__ == '__main__':
                             help="Enable debug output.")
     optionParser.add_option('--verbose', action="store_true", default=False,
                             help="Verbose output.")
+    optionParser.add_option('--export-limit', dest='exportLimit', type=int,
+                            default=0,
+                            help='Limit the number of entries in the export')
 
     (options, unparseableArguments) = optionParser.parse_args()
 
@@ -74,4 +77,4 @@ if __name__ == '__main__':
         logging.basicConfig(level=logging.ERROR)
 
     startWorkflow(options.startYear, options.endYear,
-                  options.onlyIndexes, options.onlyScraping)
+                  options.onlyIndexes, options.onlyScraping, options.exportLimit)
