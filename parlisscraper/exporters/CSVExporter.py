@@ -22,11 +22,7 @@ class CSVExporter(BaseExporter):
         This will append the proposition to the export file.
         """
         with open(self.outputFile, 'a') as outputFile:
-            csvWriter = writer(
-                outputFile,
-                delimiter=';',
-                quotechar='"'
-            )
+            csvWriter = writer(outputFile, delimiter=';', quotechar='"')
             header = ["update", "link", "date", "partei", "nummer", "title",
                       "begruendung", "betreff", "ergebnisse", 'ob_nummer']
             csvWriter.writerow(header)
