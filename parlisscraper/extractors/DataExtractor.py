@@ -188,7 +188,7 @@ class DataExtractor(object):
         return partei
 
     def getParty(self):
-        if(not self._party):
+        if not self._party:
             self._party = self._extractParty()
 
         return self._party
@@ -248,7 +248,7 @@ class DataExtractor(object):
         return ergebnisse
 
     def getResult(self):
-        if(not self._result):
+        if not self._result:
             self._result = self._extractResult()
 
         return self._result
@@ -260,7 +260,7 @@ class DataExtractor(object):
         return nummer
 
     def getPropositionNumber(self):
-        if(not self._proposition_nbr):
+        if not self._proposition_nbr:
             self._proposition_nbr = self._extractPropositionNumber()
 
         return self._proposition_nbr
