@@ -9,9 +9,7 @@ from parlisscraper.extractors.DataExtractor import DataExtractor
 
 
 class DataExtractor1990(DataExtractor):
-    '''
-    classdocs
-    '''
+
     def _getSubjectNoooooow(self, matchBetreff):
         bet = self._quoteChange(matchBetreff.group(0))
         bet2 = re.sub("Betreff: </p>", "", bet)
