@@ -51,6 +51,15 @@ class ParlisIndexFinder(object):
         self.linkToDocumentPattern = re.compile(r"/PARLISLINK/DDW\?W%3DVORLAGEART\+INC\+%27OF%27\+AND\+JAHR\+%3D\+(?P<year>\d{4})\+AND\+DOKUMENTTYP\+%3D\+%27VORL%27\+ORDER\+BY\+SORTFELD/Descend%26M%3D\d+%26K%3D(?P<documentID>OF_\d{1,4}-\d{1,2}_\d{4})%26R%3DY%22%26U%3D1", re.IGNORECASE)
         self.itemCountPattern = re.compile("Dokumente:.*von\W+(?P<documentCount>\d+)")
 
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        for documentID in self._getDocumentIDs():
+            if documentID not in self.collectedItems:
+                self.collectedItems.add(documentID)
+                return documentID
+
     def startSearching(self):
         """
         Starts the search for indexes and writes the results into a file.
