@@ -8,22 +8,24 @@ class XMLExporter(BaseExporter):
     This class creates XML
     """
 
-    def __init__(self, filename):
+    def __init__(self, filename, limit=0):
         self.xmlfile = filename
+        self.limit = limit
 
     def createExport(self, propositions):
         implement = xml.dom.getDOMImplementation()
         xmlDocument = implement.createDocument(
             None, "PARLIS_propositions", None)
 
-        for proposition in propositions:
-            if proposition is not None:
-                xmlDocument.documentElement.appendChild(
-                    self._createDOMEntryFromProposition(xmlDocument, proposition))
+        for (index, proposition) in enumerate(propositions, start=1):
+            if self.limit and index > self.limit:
+                break
 
-        fileWriter = open(self.xmlfile, 'w')
-        xmlDocument.writexml(fileWriter, '\n', ' ')
-        fileWriter.close()
+            xmlDocument.documentElement.appendChild(
+                self._createDOMEntryFromProposition(xmlDocument, proposition))
+
+        with open(self.xmlfile, 'w') as fileWriter:
+            xmlDocument.writexml(fileWriter, '\n', ' ')
 
     def _createDOMEntryFromProposition(self, document, proposition):
         def createDOMElement(parentElement, name, value):
@@ -58,4 +60,3 @@ class XMLExporter(BaseExporter):
             createDOMElement(propositionElement, "result", proposition.result))
 
         return propositionElement
-
