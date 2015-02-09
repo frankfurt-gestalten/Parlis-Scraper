@@ -24,12 +24,10 @@ ToDo
 ----
 Some ideas that have been floating around for a while and may be a good starting point if you want to contribute.
 
-* Nicer packages. And moooore!
 * Support more document formats. Parlis holds a lot more information than we currently are able to scrape.
 * Implementing the scraper and/or indexfinder as generators.
 * More export formats
 * Create awesome stuff with the retrieved data (yeah, we encourage you to do that!) (how about an easy to use interface?)
-* Test how much load the upgraded PARLIS hardware can handle. There have been problems in the past and it would be nice to speed up the retrival from the website. Right now there is a delay between getting the pages to avoid crashing servers ;)
 * Easier commandline usage.
 * Write tests :)
 * Let the scraper decide for a year based on the DOK_NAME in the url (= the link parts the indexfinder creates)
