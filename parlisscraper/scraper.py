@@ -108,38 +108,7 @@ class ParlisScraper(object):
 
         return proposition
 
-    def _quoteChange(self, text):
-        """
-        Removes the quotation mark (") from the text.
-
-        @param text: Some text
-        @type text: str
-        @return: Cleaned version without quotation mark
-        @rtype: str
-        """
-        return re.sub('"', '', text)
-
-    def __writeInformationToFile(self, content):
-        """
-        Writes information to a file.
-        Data will be attended to the file.
-
-        @param outputFile: The file to write to.
-        @type outputFile: str
-        @param content: The data that shall be written to the file-
-        @type content: str
-        """
-        try:
-            with open(self.outputFile, 'a') as csv_output_file:
-                csvWriter = csv.writer(csv_output_file,
-                                       delimiter=',', quotechar='"')
-                csvWriter.writerow(content)
-        except IOError as ioerr:
-            LOGGER.error("Error writing file '{filename}': {error}".format(filename=self.outputFile, error=ioerr))
-        except Exception as err:
-            LOGGER.error(err)
-
-    def __loadIndex(self, inputFile):
+    def __loadIndex(self):
         """
         Starts processing of the supplied file.
         Reads the content of the files, creates a link from it and then
