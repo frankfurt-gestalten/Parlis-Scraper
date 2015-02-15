@@ -52,13 +52,13 @@ class ParlisIndexFinder(object):
         self.itemCountPattern = re.compile("Dokumente:.*von\W+(?P<documentCount>\d+)")
 
     def __iter__(self):
-        return self
+        def iterator():
+            for documentID in self._getDocumentIDs():
+                if documentID not in self.collectedItems:
+                    self.collectedItems.add(documentID)
+                    yield documentID
 
-    def __next__(self):
-        for documentID in self._getDocumentIDs():
-            if documentID not in self.collectedItems:
-                self.collectedItems.add(documentID)
-                return documentID
+        return iterator()
 
     def startSearching(self):
         """
