@@ -163,7 +163,7 @@ class DataExtractor(object):
             splittedDate = newDate.split('.')
             return date(int(splittedDate[2]), int(splittedDate[1]), int(splittedDate[0])).isoformat()
         except AttributeError:
-            LOGGER.error("Could not get update date, assigning None.")
+            LOGGER.debug("Could not get update date, assigning None.")
             return None
 
     def getUpdateDate(self):
