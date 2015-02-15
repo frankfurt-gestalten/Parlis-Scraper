@@ -1,5 +1,7 @@
-from __future__ import absolute_import
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+'''
+This module contains various classes to export the retrieved data.
 
-from .basicexporter import BaseExporter
-from .CSVExporter import CSVExporter
-from .XMLExporter import XMLExporter
+:author: Niko Wenselowski
+'''
