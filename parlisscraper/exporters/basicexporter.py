@@ -1,7 +1,9 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
 '''
-This module contains various classes to export the retrieved data.
+Basic, abstract exporter.
 
-@author: Niko Wenselowski
+:author: Niko Wenselowski
 '''
 
 
@@ -14,7 +16,7 @@ class BaseExporter(object):
         '''
         Exports the given Propositions.
 
-        @param *propositions: The propositions to export.
-        @type **propositions: sequence of Proposition.
+        :param propositions: The propositions to export.
+        :type propositions: sequence of Proposition.
         '''
         raise NotImplementedError("Can't export.")
