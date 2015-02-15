@@ -8,7 +8,7 @@ import datetime
 import logging
 from optparse import OptionParser
 
-from parlisscraper.exporters import CSVExporter, XMLExporter
+from parlisscraper.exporters.CSVExporter import CSVExporter
 from parlisscraper.indexfinder import ParlisIndexFinder
 from parlisscraper.scraper import ParlisScraper
 
@@ -27,22 +27,20 @@ def startWorkflow(startYear=None, endYear=None, onlySearchIndexes=False,
         LOGGER.info("Processing year {0}".format(year))
 
         if not onlyScrapeFiles:
-            LOGGER.info("Start looking for indexes")
             indexer = ParlisIndexFinder(year)
-            indexer.startSearching()
-            LOGGER.info("Finished looking for indexes")
+        else:
+            indexer = open('{year}-IDlist.txt'.format(year=year))
 
         if not onlySearchIndexes:
-            scrape = ParlisScraper(year)
+            scraper = ParlisScraper(year, indexer)
 
-            scrapingResults = scrape.startScraping()
-            try:
-                csvExporter = CSVExporter(scrape.outputFile, exportLimit)
-                csvExporter.createExport(scrapingResults)
-            except Exception as err:
-                LOGGER.error("Failed to write CSV. Writing XML. Error: {0}".format(err))
-                xmlExporter = XMLExporter('%s.xml' % scrape.outputFile)
-                xmlExporter.createExport(scrapingResults)
+            csvExporter = CSVExporter("{0}-antraege.csv".format(year),
+                                      exportLimit)
+            csvExporter.createExport(scraper)
+        else:
+            with open('{year}-IDlist.txt'.format(year=year), "w") as output:
+                for documentId in indexer:
+                    output.write('{id}\n'.format(id=documentId))
 
 
 if __name__ == '__main__':
