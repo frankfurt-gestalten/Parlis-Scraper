@@ -7,12 +7,8 @@ It will create a file called 'YYYY-IDlist.txt' where YYYY is the year.
 """
 import logging
 import re
+import requests
 import time
-
-try:
-    from urllib.request import urlopen
-except ImportError:
-    from urllib2 import urlopen
 
 from bs4 import BeautifulSoup
 
@@ -109,7 +105,7 @@ class ParlisIndexFinder(object):
             )
 
             try:
-                page = urlopen(linkcon)
+                page = requests.get(linkcon).text
                 soup = BeautifulSoup(page)
 
                 if not retrievedTotalNumberOfDocuments:
