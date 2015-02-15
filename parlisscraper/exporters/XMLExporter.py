@@ -1,6 +1,11 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from __future__ import absolute_import
+
 import xml.dom
 
-from parlisscraper.exporters import BaseExporter
+from .basicexporter import BaseExporter
 
 
 class XMLExporter(BaseExporter):
