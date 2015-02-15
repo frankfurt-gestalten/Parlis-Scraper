@@ -7,16 +7,10 @@ It will retrieve the pages from parlis and store there contents in a .csv-file.
 """
 from __future__ import absolute_import
 
-import csv
 import logging
-import re
+import requests
 import time
 import traceback
-
-try:
-    from urllib.request import urlopen
-except ImportError:
-    from urllib2 import urlopen
 
 from bs4 import BeautifulSoup
 
@@ -32,7 +26,7 @@ class ParlisScraper(object):
     This class scrapes the files from the webserver.
     The information scraped is saved into a textfile.
     """
-    def __init__(self, year, inputFile=None, outputFile=None):
+    def __init__(self, year, documentIDs=None, scrapingDelayInSeconds=1):
         """
         Constructor.
         The year is used to specify the filenames.
@@ -40,21 +34,13 @@ class ParlisScraper(object):
 
         @param year: The year what shall be parsed
         @type year: int
-        @param inputFile: File from wich the input is read.
-        @type inputFile: str
+        :param documentIDs: An iterator with IDs of the documents to scrape
         @param outputFile: File into wich the data is saved.
         @type outputFile: str
         """
-        if inputFile is None:
-            inputFile = "%s-IDlist.txt" % year
-
-        if outputFile is None:
-            outputFile = "%s-antraege.csv" % year
-
         self.year = year
-        self.outputFile = outputFile
-        self.inputFile = inputFile
-        self.sleepingTimeInSeconds = 3
+        self._documentIDs = documentIDs
+        self.sleepingTimeInSeconds = scrapingDelayInSeconds
 
     def _getExtractor(self, link):
         if self._needs1990sWorkaround():
@@ -77,7 +63,7 @@ class ParlisScraper(object):
         @type: BeautifulSoup
         """
         try:
-            page = urlopen(link)
+            page = requests.get(link).text
             return BeautifulSoup(page, 'lxml')
         except Exception as err:
             LOGGER.error("Error receiving '{link}': {error}".format(link=link, error=err))
@@ -118,30 +104,20 @@ class ParlisScraper(object):
         @param inputFile: input file with information to create the links.
         @type inputFile: str
         """
-        proposition_links = set()
-        with open(inputFile, 'r') as inputFileHandle:
-            for line in inputFileHandle:
-                #Create url
-                link = "http://stvv.frankfurt.de/PARLISLINK/DDW?W=DOK_NAME='{id}'".format(
-                    id=re.sub("\n", "", line)
-                )
-                proposition_links.add(link)
+        for documentId in self._documentIDs:
+            link = "http://stvv.frankfurt.de/PARLISLINK/DDW?W=DOK_NAME='{id}'".format(
+                id=documentId.replace('\n', '')
+            )
 
-        collectedPropositions = []
-        for link in sorted(proposition_links):
-            LOGGER.info("Nummer {0} ({link})".format(len(collectedPropositions) + 1, link=link))
+            LOGGER.debug('Scraping {0}'.format(link))
 
             try:
-                proposition = self._getPropositionFromExtractor(link)
-                collectedPropositions.append(proposition)
+                yield self._getPropositionFromExtractor(link)
             except Exception as err:
                 LOGGER.error('Failed to get proposition from {link}: {error}'.format(link=link, error=err))
-                traceback.print_exc()
 
             #Wait a few seconds so the server can handle the load...
             time.sleep(self.sleepingTimeInSeconds)
-
-        return collectedPropositions
 
     def _needs2006Workaround(self):
         """
@@ -174,11 +150,13 @@ class ParlisScraper(object):
         """
         Start the scraping.
         """
-        LOGGER.info("Starting to scrape...")
-        scrapedPropositions = self.__loadIndex(self.inputFile)
+        LOGGER.info("Starting to scrape {0}...".format(self.year))
+        for proposition in self.__loadIndex():
+            yield proposition
         LOGGER.info("Finished scraping")
 
-        return scrapedPropositions
+    def __iter__(self):
+        return (proposition for proposition in self.__loadIndex())
 
     def __repr__(self):
         """
@@ -186,5 +164,7 @@ class ParlisScraper(object):
 
         Built-in python function.
         """
-        return "Scraper for %s. Outputfile: %s, Inputfile: %s, Delay between scraping files: %s seconds" % (self.year, self.outputFile, self.inputFile, self.sleepingTimeInSeconds)
-#end class ParlisScraper
+        return ("<{class}({year}, documentIDs={documentIDs}, "
+                "scrapingDelayInSeconds={delay})>").format(year=self.year,
+                                                           documentIDs=self._documentIDs,
+                                                           scrapingDelayInSeconds=self.sleepingTimeInSeconds)
