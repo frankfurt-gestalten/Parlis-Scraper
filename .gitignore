@@ -1,4 +1,7 @@
 *.py[co]
+*.egg-info
+
+# files that may be created during runtime
 *.csv
 *.xml
 *~
