@@ -20,3 +20,10 @@ class PropositionTest(unittest.TestCase):
 
 	def testParty(self):
 		self.assertEqual('APPD', self.prop.party)
+
+	def test__repr__(self):
+		representation = repr(self.prop)
+
+		self.assertTrue(self.prop.title in self.prop)
+		self.assertTrue(self.prop.link in self.prop)
+		self.assertTrue(self.prop.party in self.prop)
