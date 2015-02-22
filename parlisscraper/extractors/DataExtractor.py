@@ -161,7 +161,11 @@ class DataExtractor(object):
             newDate = re.sub("letzte Aktualisierung des Sachstandes: ", "", matchDate.group(0))
 
             splittedDate = newDate.split('.')
-            return date(int(splittedDate[2]), int(splittedDate[1]), int(splittedDate[0])).isoformat()
+            return date(
+                int(splittedDate[2]),
+                int(splittedDate[1]),
+                int(splittedDate[0])
+            ).isoformat()
         except AttributeError:
             LOGGER.debug("Could not get update date, assigning None.")
             return None
@@ -276,10 +280,10 @@ class DataExtractor(object):
 
         if dateSearchResults:
             return date(
-                        int(dateSearchResults.group('year')),
-                        int(dateSearchResults.group('month')),
-                        int(dateSearchResults.group('day'))
-                        ).isoformat()
+                int(dateSearchResults.group('year')),
+                int(dateSearchResults.group('month')),
+                int(dateSearchResults.group('day'))
+            ).isoformat()
 
     def getDate(self):
         if self._date is None:
