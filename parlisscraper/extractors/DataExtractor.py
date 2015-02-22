@@ -108,7 +108,7 @@ class DataExtractor(object):
                                    self._getSourceCode()))
 
     def getTitle(self):
-        if(not self._title):
+        if self._title is None:
             self._title = self._extractTitle()
 
         return self._title
@@ -148,7 +148,7 @@ class DataExtractor(object):
         return returnSubject
 
     def getSubject(self):
-        if(not self._subject):
+        if self._subject is None:
             self._subject = self._extractSubject()
 
         return self._subject
@@ -167,7 +167,7 @@ class DataExtractor(object):
             return None
 
     def getUpdateDate(self):
-        if(not self._updateDate):
+        if self._updateDate is None:
             self._updateDate = self._extractUpdateDate()
 
         return self._updateDate
@@ -188,13 +188,13 @@ class DataExtractor(object):
         return partei
 
     def getParty(self):
-        if not self._party:
+        if self._party is None:
             self._party = self._extractParty()
 
         return self._party
 
     def getStatement(self):
-        if not self._statement:
+        if self._statement is None:
             self._statement = self._extractStatement()
 
         return self._statement
@@ -248,7 +248,7 @@ class DataExtractor(object):
         return ergebnisse
 
     def getResult(self):
-        if not self._result:
+        if self._result is None:
             self._result = self._extractResult()
 
         return self._result
@@ -260,7 +260,7 @@ class DataExtractor(object):
         return nummer
 
     def getPropositionNumber(self):
-        if not self._proposition_nbr:
+        if self._proposition_nbr is None:
             self._proposition_nbr = self._extractPropositionNumber()
 
         return self._proposition_nbr
@@ -282,7 +282,7 @@ class DataExtractor(object):
                         ).isoformat()
 
     def getDate(self):
-        if not self._date:
+        if self._date is None:
             self._date = self._extractDate()
 
         return self._date
