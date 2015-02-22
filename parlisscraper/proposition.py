@@ -59,5 +59,5 @@ class Proposition(object):
                     party=self.party,
                     proposition_number=self.proposition_nbr,
                     obnumber=self.obnumber
-            )
-        )
+                )
+                )

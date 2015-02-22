@@ -188,6 +188,7 @@ class ParlisScraper(object):
         Built-in python function.
         """
         return ("<{class}({year}, documentIDs={documentIDs}, "
-                "scrapingDelayInSeconds={delay})>").format(year=self.year,
-                                                           documentIDs=self._documentIDs,
-                                                           scrapingDelayInSeconds=self.sleepingTimeInSeconds)
+                "scrapingDelayInSeconds={delay})>").format(
+                    year=self.year,
+                    documentIDs=self._documentIDs,
+                    scrapingDelayInSeconds=self.sleepingTimeInSeconds)
