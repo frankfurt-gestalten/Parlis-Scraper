@@ -36,8 +36,10 @@ import traceback
 from bs4 import BeautifulSoup
 
 from .proposition import Proposition
-from .extractors import (DataExtractor, DataExtractor1990, DataExtractor2003,
-                         DataExtractor2006)
+from .extractors.DataExtractor import DataExtractor
+from .extractors.DataExtractor1990 import DataExtractor1990
+from .extractors.DataExtractor2003 import DataExtractor2003
+from .extractors.DataExtractor2006 import DataExtractor2006
 
 LOGGER = logging.getLogger('parlisscraper')
 

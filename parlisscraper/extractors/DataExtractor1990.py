@@ -27,7 +27,7 @@ from __future__ import absolute_import
 
 import re
 
-from parlisscraper.extractors.DataExtractor import DataExtractor
+from .DataExtractor import DataExtractor
 
 
 class DataExtractor1990(DataExtractor):
