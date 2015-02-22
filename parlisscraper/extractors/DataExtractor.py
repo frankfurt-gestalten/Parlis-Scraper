@@ -292,4 +292,4 @@ class DataExtractor(object):
         return self._date
 
     def __repr__(self):
-        return '%s for %s.\nContent: %s' % (self.__class__.__name__, self.getLink(), self._getSourceCode())
+        return '<{0}(link={1})>'.format(self.__class__.__name__, self.getLink())
