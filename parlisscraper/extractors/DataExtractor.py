@@ -135,9 +135,9 @@ class DataExtractor(object):
         matchAntragssteller = re.search(self._getSubjectPattern(),
                                         self._getSourceCode())
 
-        if not (matchBetreff is None):
+        if matchBetreff is not None:
             returnSubject = self._getSubjectNoooooow(matchBetreff)
-        elif not (matchAntragssteller is None):
+        elif matchAntragssteller is not None:
             returnSubject = re.sub("Betreff: </p>", "", self._getSubjectWithAntragssteller(matchAntragssteller))
         else:
             returnSubject = " "
