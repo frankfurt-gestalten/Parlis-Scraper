@@ -46,20 +46,19 @@ LOGGER = logging.getLogger('parlisscraper')
 
 class ParlisScraper(object):
     """
-    This class scrapes the files from the webserver.
-    The information scraped is saved into a textfile.
+    This class scrapes the files from PARLIS.
     """
+
     def __init__(self, year, documentIDs=None, scrapingDelayInSeconds=1):
         """
         Constructor.
         The year is used to specify the filenames.
         If it is wished the filenames can be overridden.
 
-        @param year: The year what shall be parsed
-        @type year: int
+        :param year: The year what shall be parsed
+        :type year: int
         :param documentIDs: An iterator with IDs of the documents to scrape
-        @param outputFile: File into wich the data is saved.
-        @type outputFile: str
+        :param scrapingDelayInSeconds: Number of seconds to pause between scraping.
         """
         self.year = year
         self._documentIDs = documentIDs
