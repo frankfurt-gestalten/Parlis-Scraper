@@ -24,6 +24,6 @@ class PropositionTest(unittest.TestCase):
 	def test__repr__(self):
 		representation = repr(self.prop)
 
-		self.assertTrue(self.prop.title in self.prop)
-		self.assertTrue(self.prop.link in self.prop)
-		self.assertTrue(self.prop.party in self.prop)
+		self.assertTrue(self.prop.title in representation)
+		self.assertTrue(self.prop.link in representation)
+		self.assertTrue(self.prop.party in representation)
